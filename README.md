@@ -232,37 +232,6 @@ Use this every time you add a new object.
 
 ---
 
-## Web-to-Case Integration
-
-External forms post to:
-
-```
-https://webto.salesforce.com/servlet/servlet.WebToCase
-```
-
-### Correct Field Names
-
-| Label | API Name |
-|---|---|
-| Contact Name | `suppliedName` |
-| Email | `suppliedEmail` |
-| Phone | `suppliedPhone` |
-| Subject | `subject` |
-| Description | `description` |
-
-> `ContactId` (lookup) cannot be populated via Web-to-Case. Use a Record-Triggered Flow to match by email after creation.
-
-### Contact Matching Flow Logic
-
-```
-Trigger: Case created
-If ContactId IS NULL AND SuppliedEmail IS NOT NULL
-    Get Contact where Email = Case.SuppliedEmail
-    If found: set Case.ContactId = Contact.Id
-```
-
----
-
 ## Common Errors and Fixes
 
 | Error | Cause | Fix |
