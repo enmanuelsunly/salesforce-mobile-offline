@@ -357,27 +357,7 @@ The Mobile Extensions one is the most important for this project. It runs ESLint
  
 ---
  
-### 5. ESLint Plugin for LWC Mobile
- 
-Install this in your project root so ESLint flags offline anti-patterns as you code:
- 
-```bash
-npm install --save-dev @salesforce/eslint-plugin-lwc-mobile
-```
- 
-Then update your `.eslintrc.json`:
- 
-```json
-{
-  "extends": ["eslint:recommended", "plugin:@salesforce/lwc-mobile/recommended"]
-}
-```
- 
-This catches things like imperative Apex calls, unsupported components, and oversized GraphQL fields before they blow up on device.
- 
----
- 
-### 6. Git
+### 5. Git
  
 For cloning and version control.
  
