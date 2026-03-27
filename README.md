@@ -1,6 +1,6 @@
 # salesforce-mobile-offline
 
-Offline-first Salesforce mobile app built for **Sunly Energy** field teams. Covers site inspections, account management, opportunities, and project reports — all functional without internet, syncing automatically when connectivity returns.
+Offline-first Salesforce mobile app built for **Sunly Energy** field teams. Covers site inspections, account management, opportunities, and project reports  all functional without internet, syncing automatically when connectivity returns.
 
 Built with **Lightning Web Components (LWC)**, **Briefcase Builder**, and **Record-Triggered Flows**.
 
@@ -10,7 +10,7 @@ Built with **Lightning Web Components (LWC)**, **Briefcase Builder**, and **Reco
 
 Field teams in low-signal areas were losing deal data. Standard Salesforce Mobile does not support offline editing out of the box, and the default UI breaks entirely without a connection.
 
-This project fixes that by building a custom offline architecture on top of Salesforce Mobile SDK — giving reps a fully functional app whether they have LTE or not.
+This project fixes that by building a custom offline architecture on top of Salesforce Mobile SDK  giving reps a fully functional app whether they have LTE or not.
 
 ---
 
@@ -30,13 +30,13 @@ This project fixes that by building a custom offline architecture on top of Sale
 
 ## Tech Stack
 
-- **Salesforce LWC** — UI components (offline-compatible subset only)
-- **Lightning Data Service (LDS)** — `@wire(getRecord)`, `updateRecord()`
-- **Briefcase Builder** — offline data priming per user/role
-- **Record-Triggered Flows** — Event mirroring, contact matching, notifications
-- **Salesforce Mobile SDK** — offline sync engine
-- **Web-to-Case** — external lead/case intake
-- **Omni-Channel** — case routing to available agents
+- **Salesforce LWC**  UI components (offline-compatible subset only)
+- **Lightning Data Service (LDS)**  `@wire(getRecord)`, `updateRecord()`
+- **Briefcase Builder**  offline data priming per user/role
+- **Record-Triggered Flows**  Event mirroring, contact matching, notifications
+- **Salesforce Mobile SDK**  offline sync engine
+- **Web-to-Case**  external lead/case intake
+- **Omni-Channel**  case routing to available agents
 
 ---
 
@@ -150,7 +150,7 @@ If your component is named `viewAccountOfflineV2`, the CSS file **must** be:
 viewAccountOfflineV2.css
 ```
 
-Not `viewAccountOffline.css`. Salesforce does not throw an error — it just does not apply the styles.
+Not `viewAccountOffline.css`. Salesforce does not throw an error  it just does not apply the styles.
 
 ---
 
@@ -310,6 +310,6 @@ force-app/
 
 ## Contact
 
-Built by **Enmanuel Mateo** — Salesforce Developer / Site Inspector at Sunly Energy.
+Built by **Enmanuel Mateo**  Salesforce Developer / Site Inspector at Sunly Energy.
 
 Questions about the offline architecture, LWC patterns, or Briefcase configuration: reach out before changing anything in the Flow or Quick Action layer. Small changes there break things silently.
