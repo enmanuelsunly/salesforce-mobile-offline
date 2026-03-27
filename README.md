@@ -315,9 +315,196 @@ force-app/
 8. Test offline by putting the device in airplane mode before opening the record
 
 ---
-
+## Tools and Setup
+ 
+This is everything you need installed before touching any code.
+ 
+### 1. Node.js
+ 
+The Salesforce CLI runs on Node.js. Install the LTS version.
+ 
+```
+https://nodejs.org/en/download
+```
+ 
+Verify after install:
+ 
+```bash
+node --version
+npm --version
+```
+ 
+---
+ 
+### 2. Salesforce CLI (sf v2)
+ 
+The main tool for deploying LWCs, metadata, and Quick Actions to your org. The old `sfdx` (v7) is deprecated. Use `sf` (v2).
+ 
+```bash
+npm install --global @salesforce/cli
+```
+ 
+Verify:
+ 
+```bash
+sf version
+```
+ 
+If you already have `sfdx` installed, uninstall it first or you will get a conflict:
+ 
+```bash
+# uninstall old CLI first
+npm uninstall --global sfdx-cli
+ 
+# then install sf v2
+npm install --global @salesforce/cli
+```
+ 
+Official install docs: https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_install_cli.htm
+ 
+---
+ 
+### 3. Visual Studio Code
+ 
+Download at:
+ 
+```
+https://code.visualstudio.com
+```
+ 
+---
+ 
+### 4. VS Code Extensions
+ 
+Install all three of these:
+ 
+| Extension | Purpose | Link |
+|---|---|---|
+| Salesforce Extension Pack | Core LWC + Apex + Org auth | https://marketplace.visualstudio.com/items?itemName=salesforce.salesforcedx-vscode |
+| Lightning Web Components | LWC syntax highlighting + autocomplete | https://marketplace.visualstudio.com/items?itemName=salesforce.salesforcedx-vscode-lwc |
+| Salesforce Mobile Extensions | Offline LWC linting + onboarding wizard + test harness | https://marketplace.visualstudio.com/items?itemName=salesforce.salesforcedx-vscode-mobile |
+ 
+The Mobile Extensions one is the most important for this project. It runs ESLint rules that catch offline violations before you deploy them. It also gives you the LWC Test Harness, which lets you debug components in a simulated offline state without needing a physical device every time.
+ 
+---
+ 
+### 5. ESLint Plugin for LWC Mobile
+ 
+Install this in your project root so ESLint flags offline anti-patterns as you code:
+ 
+```bash
+npm install --save-dev @salesforce/eslint-plugin-lwc-mobile
+```
+ 
+Then update your `.eslintrc.json`:
+ 
+```json
+{
+  "extends": ["eslint:recommended", "plugin:@salesforce/lwc-mobile/recommended"]
+}
+```
+ 
+This catches things like imperative Apex calls, unsupported components, and oversized GraphQL fields before they blow up on device.
+ 
+---
+ 
+### 6. Git
+ 
+For cloning and version control.
+ 
+```
+https://git-scm.com/downloads
+```
+ 
+---
+ 
+## Key Commands
+ 
+Authenticate to your org:
+ 
+```bash
+sf org login web --alias my-org
+```
+ 
+Deploy a single LWC:
+ 
+```bash
+sf project deploy start -p force-app/main/default/lwc/viewAccountOfflineV2
+```
+ 
+Deploy a Quick Action:
+ 
+```bash
+sf project deploy start -p force-app/main/default/quickActions/Account.view.quickAction-meta.xml
+```
+ 
+Deploy everything at once:
+ 
+```bash
+sf project deploy start -p force-app/
+```
+ 
+Pull changes from org back to local:
+ 
+```bash
+sf project retrieve start -p force-app/
+```
+ 
+---
+ 
+## Offline Starter Kit
+ 
+The official Salesforce offline starter kit. Contains working examples of `.view`, `.edit`, and `.create` Quick Actions, lookup handling, related records via GraphQL, and Briefcase setup. Use it as a reference when building new components.
+ 
+```
+https://github.com/salesforce/offline-app-developer-starter-kit
+```
+ 
+Clone it separately from this repo:
+ 
+```bash
+git clone https://github.com/salesforce/offline-app-developer-starter-kit.git
+```
+ 
+Check out a stable tagged release instead of running HEAD:
+ 
+```bash
+git tag -l
+git checkout v242.3.0
+```
+ 
+---
+ 
+## Learning Resources
+ 
+### Offline and Mobile
+ 
+| Resource | What it covers | Link |
+|---|---|---|
+| Mobile and Offline Developer Guide | Official reference for LWC offline, wire adapters, Quick Actions | https://developer.salesforce.com/docs/atlas.en-us.mobile_offline.meta/mobile_offline/intro.htm |
+| Offline Briefcase Trailhead | Briefcase Builder setup, filters, and user assignments | https://trailhead.salesforce.com/content/learn/modules/offline-briefcase |
+| Offline Starter Kit | Working code examples for every offline pattern | https://github.com/salesforce/offline-app-developer-starter-kit |
+| Build Better LWCs for Offline | ESLint rules, mobile tools, GraphQL queries for offline | https://developer.salesforce.com/blogs/2025/04/build-better-lwcs-for-offline-usage-with-salesforce-mobile-tools |
+| Offline App Onboarding Wizard | How to use the wizard and test harness | https://developer.salesforce.com/blogs/2023/07/introducing-the-salesforce-offline-app-onboarding-wizard |
+ 
+### LWC Fundamentals
+ 
+| Resource | What it covers | Link |
+|---|---|---|
+| Build Lightning Web Components Trail | Full LWC trail from scratch | https://trailhead.salesforce.com/content/learn/trails/build-lightning-web-components |
+| LWC Developer Guide | Wire adapters, component lifecycle, LDS | https://developer.salesforce.com/docs/component-library/documentation/en/lwc |
+ 
+### Salesforce CLI
+ 
+| Resource | Link |
+|---|---|
+| CLI Setup Guide | https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_intro.htm |
+| CLI Command Reference | https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference_unified.htm |
+ 
+---
+ 
 ## Contact
-
-Built by **Enmanuel Mateo**  Salesforce Developer / Site Inspector at Sunly Energy.
-
+ 
+Built by **Enmanuel Mateo** — Salesforce Developer / Site Inspector at Sunly Energy.
+ 
 Questions about the offline architecture, LWC patterns, or Briefcase configuration: reach out before changing anything in the Flow or Quick Action layer. Small changes there break things silently.
