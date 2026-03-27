@@ -1,0 +1,73 @@
+<template>
+    <lightning-card title="Electrical">
+        <div class="slds-p-around_small">
+
+            <!-- Meter Location (picklist) -->
+            <lightning-combobox
+                name="Meter_Location__c"
+                label="Meter Location"
+                value={form.Meter_Location__c}
+                options={meterLocationOptions}
+                onchange={handleChange}>
+            </lightning-combobox>
+
+            <!-- Meter Base (picklist) -->
+            <lightning-combobox
+                name="Meter_Base__c"
+                label="Meter Base"
+                value={form.Meter_Base__c}
+                options={meterBaseOptions}
+                onchange={handleChange}>
+            </lightning-combobox>
+
+            <!-- Is there a generator (checkbox) -->
+            <lightning-input
+                type="checkbox"
+                name="Is_there_a_generator__c"
+                label="Is there a generator"
+                checked={form.Is_there_a_generator__c}
+                onchange={handleChange}>
+            </lightning-input>
+
+            <!-- Generator Type (picklist) -->
+            <lightning-combobox
+                name="Generator_Type__c"
+                label="Generator Type"
+                value={form.Generator_Type__c}
+                options={generatorTypeOptions}
+                onchange={handleChange}>
+            </lightning-combobox>
+
+            <!-- Electrical Notes (rich text -> textarea) -->
+            <lightning-textarea
+                name="Electrical_Notes__c"
+                label="Electrical Notes"
+                value={form.Electrical_Notes__c}
+                onchange={handleChange}>
+            </lightning-textarea>
+
+            <!-- Read-only formula field -->
+            <template if:true={siElectricalFolder}>
+                <p class="slds-m-top_small slds-text-body_small">
+                    {siElectricalFolder}
+                </p>
+            </template>
+
+            <div class="slds-m-top_medium slds-text-align_right">
+                <lightning-button
+                    variant="neutral"
+                    label="Cancel"
+                    onclick={handleCancel}
+                    class="slds-m-right_small">
+                </lightning-button>
+
+                <lightning-button
+                    variant="brand"
+                    label="Save"
+                    onclick={handleSave}
+                    disabled={isSaving}>
+                </lightning-button>
+            </div>
+        </div>
+    </lightning-card>
+</template>

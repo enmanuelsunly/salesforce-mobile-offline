@@ -1,0 +1,77 @@
+<template>
+    <lightning-card title="Request Proposal (Offline)">
+        <div class="slds-p-around_medium">
+
+            <lightning-combobox
+                name="Residential_or_Commercial__c"
+                label="Residential or Commercial?"
+                value={residentialOrCommercialValue}
+                options={residentialOrCommercialOptions}
+                onchange={handleChange}
+                required>
+            </lightning-combobox>
+
+            <lightning-combobox
+                name="New_or_Updated__c"
+                label="New or Updated?"
+                value={newOrUpdatedValue}
+                options={newOrUpdatedOptions}
+                onchange={handleChange}
+                required>
+            </lightning-combobox>
+
+            <lightning-combobox
+                name="Proposal_Options__c"
+                label="Proposal Options"
+                value={proposalOptionsValue}
+                options={proposalOptions}
+                onchange={handleChange}>
+            </lightning-combobox>
+
+            <lightning-combobox
+                name="Type_of_Proposals_Needed__c"
+                label="Type of Proposals needed"
+                value={typeOfProposalsValue}
+                options={typeOfProposalsOptions}
+                onchange={handleChange}>
+            </lightning-combobox>
+
+            <lightning-textarea
+                name="GPS_Coordinates__c"
+                label="GPS Coordinates"
+                value={gpsCoordinatesValue}
+                onchange={handleChange}>
+            </lightning-textarea>
+
+            <lightning-textarea
+                name="Proposal_Details__c"
+                label="Proposal Details"
+                value={proposalDetailsValue}
+                onchange={handleChange}>
+            </lightning-textarea>
+
+            <div class="slds-m-top_medium slds-align_absolute-center">
+                <lightning-button
+                    variant="neutral"
+                    label="Cancel"
+                    class="slds-m-right_small"
+                    onclick={handleCancel}>
+                </lightning-button>
+
+                <lightning-button
+                    variant="brand"
+                    label="Save"
+                    onclick={handleSave}
+                    disabled={isSaving}>
+                </lightning-button>
+            </div>
+
+            <template if:true={errorMessage}>
+                <div class="slds-m-top_small slds-text-color_error">
+                    {errorMessage}
+                </div>
+            </template>
+
+        </div>
+    </lightning-card>
+</template>

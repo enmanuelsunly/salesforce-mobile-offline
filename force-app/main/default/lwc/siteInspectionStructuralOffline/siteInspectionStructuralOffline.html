@@ -1,0 +1,68 @@
+<template>
+    <lightning-card title="Structural (Offline)">
+        <lightning-accordion active-section-name="attics">
+            <!-- Attic Notes -->
+            <lightning-accordion-section name="attics" label="Attics">
+                <lightning-textarea
+                    label="Attic Notes"
+                    value={atticNotes}
+                    data-field="atticNotes"
+                    onchange={handleFieldChange}>
+                </lightning-textarea>
+            </lightning-accordion-section>
+
+            <!-- Attic 1 -->
+            <lightning-accordion-section name="attic1" label="Attic 1">
+                <lightning-input
+                    type="text"
+                    label="Attic Location 1"
+                    value={atticLocation1}
+                    data-field="atticLocation1"
+                    onchange={handleFieldChange}>
+                </lightning-input>
+            </lightning-accordion-section>
+
+            <!-- Attic 2 -->
+            <lightning-accordion-section name="attic2" label="Attic 2">
+                <lightning-input
+                    type="text"
+                    label="Attic Location 2"
+                    value={atticLocation2}
+                    data-field="atticLocation2"
+                    onchange={handleFieldChange}>
+                </lightning-input>
+            </lightning-accordion-section>
+
+            <!-- Attic 3 -->
+            <lightning-accordion-section name="attic3" label="Attic 3">
+                <lightning-input
+                    type="text"
+                    label="Attic Location 3"
+                    value={atticLocation3}
+                    data-field="atticLocation3"
+                    onchange={handleFieldChange}>
+                </lightning-input>
+            </lightning-accordion-section>
+
+            <!-- Attic 4 -->
+            <lightning-accordion-section name="attic4" label="Attic 4">
+                <lightning-input
+                    type="text"
+                    label="Attic Location 4"
+                    value={atticLocation4}
+                    data-field="atticLocation4"
+                    onchange={handleFieldChange}>
+                </lightning-input>
+            </lightning-input>
+            </lightning-accordion-section>
+        </lightning-accordion>
+
+        <div class="slds-m-top_medium slds-text-align_right">
+            <lightning-button
+                variant="brand"
+                label="Save Structural"
+                onclick={handleSave}>
+            </lightning-button>
+        </div>
+    </lightning-card>
+</template>

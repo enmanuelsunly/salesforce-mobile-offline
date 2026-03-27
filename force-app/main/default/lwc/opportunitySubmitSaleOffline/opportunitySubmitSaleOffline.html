@@ -1,0 +1,133 @@
+<template>
+  <div class="slds-p-around_medium">
+    <h1 class="slds-text-heading_medium slds-text-align_center slds-m-bottom_large">
+      Submit Sale
+    </h1>
+
+    <template if:true={hasData}>
+      <div class="slds-grid slds-wrap slds-gutters">
+
+        <!-- Left column -->
+        <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-2">
+          <lightning-input
+            label="Opportunity Name"
+            value={oppName}
+            disabled>
+          </lightning-input>
+
+          <lightning-input
+            class="slds-m-top_medium"
+            label="Account Name"
+            value={accountName}
+            disabled>
+          </lightning-input>
+
+          <lightning-input
+            class="slds-m-top_medium"
+            type="date"
+            label="Close Date"
+            value={closeDateValue}
+            onchange={handleInputChange}
+            data-field="CloseDate">
+          </lightning-input>
+
+          <lightning-combobox
+            class="slds-m-top_medium"
+            label="Stage"
+            value={stageValue}
+            options={stageOptions}
+            onchange={handlePicklistChange}
+            data-field="StageName">
+          </lightning-combobox>
+
+          <lightning-combobox
+            class="slds-m-top_medium"
+            label="Property Usage"
+            value={propertyUsageValue}
+            options={propertyUsageOptions}
+            onchange={handlePicklistChange}
+            data-field="Property_Usage__c">
+          </lightning-combobox>
+
+          <lightning-combobox
+            class="slds-m-top_medium"
+            label="Building Type"
+            value={buildingTypeValue}
+            options={buildingTypeOptions}
+            onchange={handlePicklistChange}
+            data-field="Building_Type__c">
+          </lightning-combobox>
+
+          <lightning-combobox
+            class="slds-m-top_medium"
+            label="Utility"
+            value={utilityValue}
+            options={utilityOptions}
+            onchange={handlePicklistChange}
+            data-field="Utility__c">
+          </lightning-combobox>
+        </div>
+
+        <!-- Right column -->
+        <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-2">
+          <lightning-combobox
+            label="Sale Type"
+            value={saleTypeValue}
+            options={saleTypeOptions}
+            onchange={handlePicklistChange}
+            data-field="Sale_Type__c">
+          </lightning-combobox>
+
+          <lightning-combobox
+            class="slds-m-top_medium"
+            label="Customer Type"
+            value={customerTypeValue}
+            options={customerTypeOptions}
+            onchange={handlePicklistChange}
+            data-field="Customer_Type__c">
+          </lightning-combobox>
+
+          <lightning-input
+            class="slds-m-top_medium"
+            label="Full Name on LDC Bill"
+            value={fullNameOnLdcBillValue}
+            onchange={handleInputChange}
+            data-field="Full_Name_on_LDC_Bill__c">
+          </lightning-input>
+
+          <lightning-input
+            class="slds-m-top_medium"
+            label="Account Number on LDC Bill"
+            value={accountNumberOnLdcBillValue}
+            onchange={handleInputChange}
+            data-field="Account_Number_on_LDC_Bill__c">
+          </lightning-input>
+        </div>
+
+      </div>
+
+      <template if:true={errorMessage}>
+        <div class="slds-text-color_error slds-m-top_medium">{errorMessage}</div>
+      </template>
+
+      <div class="slds-grid slds-grid_align-end slds-m-top_large">
+        <lightning-button
+          label="Cancel"
+          onclick={handleCancel}>
+        </lightning-button>
+
+        <lightning-button
+          class="slds-m-left_small"
+          variant="brand"
+          label="Save"
+          onclick={handleSave}
+          disabled={isSaving}>
+        </lightning-button>
+      </div>
+    </template>
+
+    <template if:false={hasData}>
+      <div class="slds-text-color_weak">Loading...</div>
+    </template>
+  </div>
+</template>

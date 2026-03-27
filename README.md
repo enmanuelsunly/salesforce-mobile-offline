@@ -1,295 +1,459 @@
-# Offline App Developer Starter Kit
+# salesforce-mobile-offline
 
-The Offline App Developer Starter Kit — this repository — is your jump-start to get up and running quickly with Lightning Web Components and Mobile Offline. This README provides steps to clone, modify, and deploy example offline components and quick actions, and view them in the offline-enabled version of the Salesforce Mobile app.
+Offline-first Salesforce mobile app built for **Sunly Energy** field teams. Covers site inspections, account management, opportunities, and project reports  all functional without internet, syncing automatically when connectivity returns.
 
-## How to Use the Starter Kit
+Built with **Lightning Web Components (LWC)**, **Briefcase Builder**, and **Record-Triggered Flows**.
 
-Getting started with the Starter Kit is straightforward, but does require a few steps.
+---
 
-* Install prerequisite developer tools
-* Configure a Briefcase for offline priming
-* Make a copy of the Starter Kit project, and configure it for your org
-* Deploy the Starter Kit code to your development org
-* Add quick actions included in the Starter Kit to your record page layouts
-* Access the Offline App from the Salesforce Mobile app and see the code in action!
+## What This Solves
 
-The remainder of this README is intended to guide you through these steps. The instructions provided are specific to getting started with the Starter Kit, **not** complete documentation. For additional details of developing with Lightning Web Components and offline development, see the following developer guides:
+Field teams in low-signal areas were losing deal data. Standard Salesforce Mobile does not support offline editing out of the box, and the default UI breaks entirely without a connection.
 
-* [Lightning Web Components Developer Guide](https://developer.salesforce.com/docs/component-library/documentation/en/lwc)
-* [Mobile and Offline Developer Guide](https://developer.salesforce.com/docs/atlas.en-us.mobile_offline.meta/mobile_offline/)
+This project fixes that by building a custom offline architecture on top of Salesforce Mobile SDK  giving reps a fully functional app whether they have LTE or not.
+
+---
+
+## Objects Covered
+
+| Object | Type | Offline Ready |
+|---|---|---|
+| Account | Standard | Yes |
+| Opportunity | Standard | Yes |
+| Site_Inspection__c | Custom | Yes |
+| Project Report | Custom UI | Yes |
+| Offline_Event__c | Mirror (custom) | Yes |
+
+> The standard Event object is not fully supported offline. We mirror it into `Offline_Event__c` via a Record-Triggered Flow.
+
+---
+
+## Tech Stack
+
+- **Salesforce LWC**  UI components (offline-compatible subset only)
+- **Lightning Data Service (LDS)**  `@wire(getRecord)`, `updateRecord()`
+- **Briefcase Builder**  offline data priming per user/role
+- **Record-Triggered Flows**  Event mirroring, contact matching, notifications
+- **Salesforce Mobile SDK**  offline sync engine
+- **Salesforce CLI**  offline sync engine
+
+---
 
 ## Quick Start Guide
-
 This quick start shows you how to view a custom record type offline. For records in the Starter Kit, you can use the corresponding existing Lightning Web Components (LWC) and modify it to your needs.
+- Set up your development environment.
+- Configure your Offline Briefcase to include the objects that you want to view offline.
+- Follow the steps in the Define an Offline Briefcase section.
+- The Briefcase Builder help documentation and Offline Briefcase Trailhead module are excellent resources to help you create a briefcase, set of rules, and filters that select records for offline use for your org.
 
-* Set up your development environment.
-  * Follow the steps in the [Prerequisites](#prerequisites) section.
-* Set up the Starter Kit Project
-  * Follow the steps in the [Set Up the Starter Kit Project](#set-up-the-starter-kit-project) section.
-* Configure your [Offline Briefcase](#define-an-offline-briefcase) to include the objects that you want to view offline.
-  * Follow the steps in the [Define an Offline Briefcase](#define-an-offline-briefcase) section.
-  * The [Briefcase Builder](https://help.salesforce.com/s/articleView?id=sf.briefcase_builder_overview.htm&language=en_US&type=5) help documentation and [Offline Briefcase](https://trailhead.salesforce.com/content/learn/modules/offline-briefcase) Trailhead module are excellent resources to help you create a briefcase, set of rules, and filters that select records for offline use for your org.
 
-### Create an LWC Quick Action to View an sObject
 
-If you’re unfamiliar with developing Lightning Web Components, the [Building Lightning Web Components](https://trailhead.salesforce.com/content/learn/trails/build-lightning-web-components) Trailhead trail is a great resource for building and testing LWCs. Before deploying your LWC to the mobile app, you should first verify that it works online in a browser, wherever possible. Verifying in a browser is not possible for some advanced, mobile-only functionality such as camera access, barcode and business card scanning, etc.
+## Architecture
 
-1. Create an LWC using SFDX: Create Lightning Web Component. Give it a name such as "`view<Object Type>`": for example, "`viewWorkOrder`".
-2. Update your LWC to render your custom object. If you need a starting point:
-  * Use the [viewAccountRecord](https://github.com/salesforce/offline-app-developer-starter-kit/tree/main/force-app/main/default/lwc/viewAccountRecord) in the Starter Kit as an example. Copy the content of the `.js`, .`html`, `.xml`, and `.css` files into your new component's files.
-  * Change your `view<ObjectType>.js` file:
-    * Change the class name "export default class ViewAccountRecord" to your Component's name. For example, "export default class ViewObjectType".
-    * Leave the imports from "lwc" and "lightning/uiRecordAPI".
-    * Delete all the field imports for Account.
-    * Create new `import FIELD_NAME from "@salesforce/schema/ObjectType.Field";` lines for the relevant fields you're interested in. Replace FIELD_NAME, ObjectType, and Field with appropriate values. 
-    * Adjust the `fields()` and `name()` methods to return the fields that you want.
-3. `view<ObjectType>.html` requires no modification.
-  * This view depends on the [draftDetailsList](https://github.com/salesforce/offline-app-developer-starter-kit/tree/main/force-app/main/default/lwc/draftDetailsList) custom component that's a part of the Starter Kit. This is fine as long as you're working from the starter kit and deploy that to your org. If not, you may get an error that the 'c-draft-details' component doesn't exist when you attempt to deploy this component.
-4. Change `view<ObjectType>.js-meta.xml`:
-  * Change `<masterLabel>` and `<description>`. All other fields can remain the same.
-5. `view<ObjectType>.css` requires no modification.
-  * `commonStyles` is part of the starter kit.
-6. Create a quick action to view your object. This quick action requires a specific format: <ObjectType>.view.quickAction-meta.xml. Note the lowercase 'view', as it's required. Follow the [Account.view](https://github.com/salesforce/offline-app-developer-starter-kit/blob/main/force-app/main/default/quickActions/Account.view.quickAction-meta.xml) example but change the `<lightningWebComponent>` to the component you created previously.
-7. Deploy the Starter Kit, your custom viewObjectType LWC folder, and `ObjectType.view.quickAction-meta.xml` files to your org. 
-  * See [Deploy Components and Quick Actions](https://github.com/asikora-sf/offline-app-developer-starter-kit/blob/patch-1/README.md#deploy-components-and-quick-actions) for more information. The [Building Lightning Web Components](https://trailhead.salesforce.com/content/learn/trails/build-lightning-web-components) trail is also an excellent resource for more in-depth details.
-8. Add your [LWC Quick Action to the Mobile Layout](https://github.com/salesforce/offline-app-developer-starter-kit/tree/main#add-lwc-quick-actions-to-mobile-layouts) for the user.
+Every object follows the same pattern:
 
-In the mobile app, logout and relogin to reload your cache. If you have a newer version of the mobile app, use the Clear Cached Data button in the Settings screen. Follow the steps in [View Offline Components in the Salesforce Mobile App](https://github.com/salesforce/offline-app-developer-starter-kit#view-offline-components-in-the-salesforce-mobile-app). You should see your custom Lightning web component! If record priming has been completed, go offline on your mobile device (turn on Airplane Mode and turn off Wi-Fi) and view a record you haven't viewed while online. Make sure your view component also works there.
-
-Alternatively, you can use the LWC Offline Test Harness to help confirm that your LWCs work as expected in LWC Offline-based environments, and are ready for integration testing within an offline-enabled Salesforce mobile app. For more information, see [Develop Offline-Ready LWCs with the LWC Offline Test Harness](https://developer.salesforce.com/docs/atlas.en-us.mobile_offline.meta/mobile_offline/dx_harness_app.htm) in the Mobile and Offline Developer Guide.
-
-You have now created a successful '.view' quick action to prime and view your Object offline! Other special action types for required functionality include '.edit' and '.create' for their respective actions (the capitalization and naming is important for these as well). The Starter Kit also contains examples for these actions. Any other custom LWC quick actions you create that are offline capable show up in the Action Bar of the '.view' action after they’re added to the Mobile Layout.
-
-### Other Custom Actions
-
-Other lightning web component quick actions can be [added to the object's page layout](https://github.com/salesforce/offline-app-developer-starter-kit/tree/main#add-lwc-quick-actions-to-mobile-layouts) and are accessible at the top of the view quick action. Salesforce reserves three quick action names for specific use cases. Create custom LWCs assigned to these quick action names to enable this functionality:
-
-* `<ObjectName>.view.quickAction-meta.xml` is used for viewing a record and injects an action bar across the top for other quick actions.
-* `<ObjectName>.edit.quickAction-meta.xml` is used for editing a record, including records in a draft state.
-* `<ObjectName.create.quickAction-meta.xml` is used for creating a record from the plus button in My Offline Records.
-
-**Note:** The quick action names for `view`, `create`, and `edit` require the exact spelling and capitalization.
-
-## Prerequisites
-
-The Salesforce product team will enable Mobile Offline for your org when you license it. While you wait, perform the following tasks to set up your developer environment and tools, so you can begin exploring after Mobile Offline is enabled.
-
-* Install Salesforce CLI
-  * Follow the steps in the [Salesforce CLI Setup Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_intro.htm)
-* Install Visual Studio Code and the Salesforce Extension Pack
-  * [Visual Studio Code Download](https://code.visualstudio.com/download)
-  * [Salesforce Extension Pack](https://marketplace.visualstudio.com/items?itemName=salesforce.salesforcedx-vscode)
-
-Instructions for installing and using additional tools specific for mobile and offline development are available in the "[Development Tools and Processes](https://developer.salesforce.com/docs/atlas.en-us.mobile_offline.meta/mobile_offline/dx.htm)" chapter of the _Mobile and Offline Developer Guide._
-
-## Define an Offline Briefcase
-
-The _Briefcase_ is the most fundamental and powerful method for defining the set of records that your offline users can take with them when they're in the field, away from a network connection. A Briefcase is quite simple; it's just a set of rules and filters that select records. The Offline App uses — and depends on — a Briefcase to use when priming records for offline use.
-
-1. From Setup, navigate to Briefcase Builder and click **New Briefcase**:
-  ![Setup Briefcase](images/SetupBriefcase.png)
-
-2. Follow the wizard to create a new Briefcase:
-  ![Briefcase Wizard](images/BriefcaseWizard1.png)
-
-3. Select objects and filters to apply:
-  ![Briefcase Wizard](images/BriefcaseWizard2.png)
-
-4. Set user assignments and complete the wizard. A new Briefcase is created:
-  ![Briefcase Wizard](images/BriefcaseWizard3.png)
-
-For additional details about how to create a briefcase for offline use, see "[Briefcase Builder](https://help.salesforce.com/s/articleView?id=sf.briefcase_builder_overview.htm&type=5)" in the Salesforce Help.
-
-## Set Up the Starter Kit Project
-
-To use the Starter Kit, first clone (copy) it to your development system, and then configure it to connect to a Salesforce org you want to use for development. The easiest way to accomplish this is using the command line.
-
-1. In the Terminal, or your command line application of choice, create, or move to a directory where you want to copy the Starter Kit. For example:
-
-   ```sh
-   mkdir -p ~/Developer/Salesforce
-   cd ~/Developer/Salesforce
-   ```
-
-2. Clone this repository:  
-  
-   ```sh
-   git clone https://github.com/salesforce/offline-app-developer-starter-kit.git
-   ```
-
-3. Move into the repo directory:
-
-   ```sh
-   cd offline-app-developer-starter-kit
-   ```
-
-4. Check out an appropriate (recent) [tagged release of the Starter Kit](https://github.com/salesforce/offline-app-developer-starter-kit/tags). For example:
-  
-   ```sh
-   git tag -l
-     v242.0.0
-     v242.1.0
-     v242.2.0
-     v242.3.0
-   git checkout v242.3.0
-   ```
-  
-   Tagged commits have gone through more complete testing, whereas the `HEAD` of the MAIN branch might not be ready for consumption.  
-  
-5. Install dependencies:
-  
-   ```sh
-   npm install
-   ```
-
-6. Authorize access to your org. Either Salesforce CLI or VS Code can be used for authorization and deployment.
-  
-   * Authorize Salesforce from VS Code:
-
-      * Enter the command palette in VS Code (CMD+SHIFT+P) and type `SFDX:Authorize an org`
-        ![VS Code Authorize](images/VSCodeAuthorize.png)
-      * A browser window opens with the Salesforce login screen. Log in to your org.
-
-   * **Alternatively,** authorize Salesforce from CLI:
-
-      ```sh
-      sfdx auth:web:login -d -a AliasName
-      ```
-
-      * Log in with your org credentials
-      * **-d** sets this as the default org with the CLI
-      * **-a** sets an alias for this org
-
-      For extensive details about using Salesforce CLI, see the [CLI Reference](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference.htm).
-
-## Deploy Components and Quick Actions
-
-Before you can run a quick action based on a Lightning web component, you must deploy the relevant code artifacts to your org. Components and quick actions can be deployed via the CLI or VS Code.
-
-Using CLI:
-
-```sh
-sfdx force:source:deploy --sourcepath ./force-app/main/default
+```
+View LWC (entry point)
+    |
+    |--- Details Tab (read-only fields)
+    |--- Action Tab 1 (e.g. Submit Sale)
+    |--- Action Tab 2 (e.g. Referral)
+    |--- Action Tab N
+         |
+         Action Wrapper LWC
+              |
+              Action LWC (draft + updateRecord)
 ```
 
-Using VS Code:
+Each action uses:
 
-* Right-click on a component or Quick Action and select: `SFDX: Deploy Source to Org`  
-  ![VS Code Deploy](images/DeployVSCode.png)
-* Upon successful deploy you’ll see in the console:  
-  ![VS Deploy Success](images/DeployedLWCConsole.png)
+```js
+// Read
+@wire(getRecord, { recordId, fields })
 
-> **Note**
-> You might need to clear caches and quit the app and restart it before changes to LWCs are active.
-
-## Add LWC Quick Actions to Mobile Layouts
-
-![Add LWC Quick Actions to Mobile Layouts](images/LWCQuickActionsMobileLayouts.png)
-
-For a quick action to appear in the action bar of a record view, it must be assigned to the main page layout for the record's object type.
-
-Here's an example of assigning the **Edit** quick action for the Account object type:
-
-1. From Setup, open the Object Manager.
-2. Enter `Account` in the Quick Find box, then select **Account**.
-3. From the Account object management settings, go to **Page Layouts** and click **Account Layout**.
-4. In the **Salesforce Mobile and Lightning Experience Actions** panel, if you see a link to **override the predefined actions**, the page layout is using the default actions. Click the link to enable customizing the actions.
-5. Select **Mobile & Lightning Actions** in the palette.
-6. Drag the **Edit (LWC)** quick action into the mobile section. Make it the first item.
-7. _Optional:_ Reorganize the actions so frequently used actions are first, and remove any unnecessary actions.
-8. Click **Save**.
-
-> **Note**
-> At this time, only actions added to the main page layout are accessible in the Offline App. Support for record types will be available in a future release.
-
-## View Offline Components in the Salesforce Mobile App
-
-The part you've been waiting for: seeing the code in action!
-
-> **Note**
-> The iOS version is used here, but the experience is identical across iOS and Android.
-
-
-- Launch the Offline App:
-
-  ![Offline Splash](images/OfflineSplash.png)
-
-- Tap on **My Offline Records**:
-
-  ![Offline Download](images/LandingPage.png)
-
-- Offline Briefcase records:
-
-  ![Briefcase Records](images/MyOfflineRecords.png)
-
-- Records:
-
-  ![View Records](images/OfflineRecords.png)
-
-## Modify Existing and Create New Components
-
-Here's where it gets fun: making changes and seeing how they run. After you've verified that you can view and use the quick actions provided in the Starter Kit, it's time to make them your own. Here are a couple of quick notes to help you find your way.
-
-### View and Modify Components and Quick Actions
-
-Starter Kit examples consist of a number of LWC components, and a set of quick action definitions that use them. You'll find this code in two directories in the Starter Kit.
-
-Navigate to:
-
-```sh
-cd force-app/main/default
+// Write
+updateRecord({ fields: { Id: recordId, ...draft } })
 ```
 
-* `lwc/` directory contains example Lightning web component bundles:  
-  ![Lightning web components source files](images/source_dir_lwc_edit_account.png)
+No imperative Apex. No dynamic SOQL. Everything goes through LDS.
 
-  For example, `lwc/editAccountRecord/` contains the files that make up the `editAccountRecord` component.
-* `quickActions/` directory contains example Quick Actions:  
-  ![Quick Actions metadata files](images/source_dir_quickactions_edit_account.png)
+---
 
-  For example: `Account.edit.quickAction-meta.xml` contains metadata to describe a quick action:
+## Event Mirroring Flow
 
-  ```xml
-  <?xml version="1.0" encoding="UTF-8"?>
-  <QuickAction xmlns="http://soap.sforce.com/2006/04/metadata">
-      <actionSubtype>ScreenAction</actionSubtype>
-      <label>Edit</label>
-      <lightningWebComponent>editAccountRecord</lightningWebComponent>
-      <optionsCreateFeedItem>false</optionsCreateFeedItem>
-      <type>LightningWebComponent</type>
-      <icon>editActionIcon</icon>
-  </QuickAction>
-  ```
+Since the standard Event object has limited offline support:
 
-  The `<lightningWebComponent>` element specifies the Lightning web component loaded for
-  the given quick action. In this case, the `editAccountRecord` component.
+```
+Event (created or updated)
+    |
+    Record-Triggered Flow (After Save)
+    |
+    Get Offline_Event__c by Event_Id__c
+    |
+    Found?     --> Update existing record
+    Not Found? --> Create new record
+```
 
-### View Draft Details within a Lightning Web Component
+Critical detail: always use `Triggering Event > Activity ID` in Flow, not `Record ID`. These are different things in Flow context and mixing them up causes silent failures.
 
-It may be useful to view draft details within a record view Lightning Web Component for debugging purposes. To enable draft details, simply uncomment the `<c-draft-detailst-list>` component from the `view<Object>Record` component html. Don't forget to uncomment the respective test code to validate the expected behavior.
+---
 
-> **Note**
-> Adding additional dependencies will negatively affect the total time to prime all records, as well as slightly increase single record load times. It’s recommended to remove or comment out debug components such as `<c-draft-details-list>` from production code.
+## Offline Rules
 
-### Call Apex Methods from Lightning Web Components
+These are hard constraints. Breaking them means the app silently fails on mobile.
 
-Apex methods can be called from Lightning web components. However, Apex is a server-side language, and Apex methods aren't available when offline. When developing for the Offline App, we recommend that you use base components and Lightning Data Service (LDS) via wire adapters for viewing or modifying data. See "[Data Guidelines](https://developer.salesforce.com/docs/component-library/documentation/en/lwc/lwc.data_guidelines)" for a more detailed description of recommended strategies for data access within LWCs.
+### 1. Every object needs a `.view` Quick Action
 
-The Starter Kit provides an example of calling Apex from an LWC:
+Without it, Salesforce Mobile shows a blank screen or "No LWC component" error. No warning, no fallback.
 
-* `viewAccountsWithApex`: This component takes user input and calls the included `AccountController` Apex method for `getAccountList`. It can be accessed from an Account record quick action.
-* The quick action is defined in `quickActions/Account.viewAccountsWithApex.quickAction-meta.xml`.
-* This example uses additional utility components, `errorPanel` and `ldsUtils`, which are also included in the Starter Kit. They're useful, but not specific to offline features.
+### 2. You cannot modify an existing LWC's `targets` or `targetConfigs`
 
-> **Note**
-> To run this component, you must have access to the `AccountController` Apex class. If you don't, calls to the `getAccountList` Apex method will fail. See [How Does Apex Class Security Work?](https://help.salesforce.com/s/articleView?id=sf.code_package_security.htm&type=5) for more information.
+Once a component is used in a Quick Action, Salesforce locks those metadata properties.
 
-For additional details regarding using Apex in offline-ready apps, see "[Use Apex While Mobile and Offline](https://developer.salesforce.com/docs/atlas.en-us.mobile_offline.meta/mobile_offline/apex.htm)" in the _Mobile and Offline Developer Guide._
-For further information about calling Apex from LWCs, such as calling methods with complex parameters, see "[Wire Apex Methods to Lightning Web Components](https://developer.salesforce.com/docs/component-library/documentation/en/lwc/lwc.apex_wire_method)" in the _Lightning Web Components Developer Guide._
+Fix: create a V2 component.
 
-## Example Features
+```
+viewAccountOffline  -->  viewAccountOfflineV2
+```
 
-- [Offline Lookups](docs/OfflineLookups.md)
-- [Related Records](docs/RelatedRecords.md)
-- [Barcode Scanner](docs/BarcodeScanner.md)
-- [Custom Object](docs/CustomObject.md)
+### 3. These components do NOT work offline
+
+| Broken | Replacement |
+|---|---|
+| `<lightning-record-edit-form>` | `<lightning-input>` |
+| `<lightning-formatted-address>` | Plain text field |
+| `<lightning-input-rich-text>` | `<lightning-textarea>` |
+
+### 4. Lookup fields display IDs offline, not names
+
+```
+Sales_Rep__c  -->  005XXXXXXXX
+```
+
+Fix with a second wire:
+
+```js
+@wire(getRecord, { recordId: lookupId, fields: ['User.Name'] })
+```
+
+Or use `getFieldDisplayValue()` if the field is already loaded.
+
+### 5. Never hardcode picklist values
+
+Use `getObjectInfo` + `getPicklistValues`. Even then, picklists can return empty offline if metadata was not cached during the last sync. Plan for that in the UI.
+
+### 6. Quick Action XML does not support `<formFactor>Small</formFactor>`
+
+Only `<actionType>ScreenAction</actionType>` is supported. Anything else is silently ignored on mobile.
+
+---
+
+## CSS Filename Rule
+
+This one will waste an hour if you miss it.
+
+If your component is named `viewAccountOfflineV2`, the CSS file **must** be:
+
+```
+viewAccountOfflineV2.css
+```
+
+Not `viewAccountOffline.css`. Salesforce does not throw an error  it just does not apply the styles.
+
+---
+
+## Global UI System
+
+All components share the same design system. Do not deviate from these unless you update all objects.
+
+### Font Scale
+
+```css
+.page-title     { font-size: 1.294rem; }
+.summary-title  { font-size: 1.254rem; }
+.section-header { font-size: 1.011rem; }
+.field-label    { font-size: 0.93rem; }
+.field-value    { font-size: 0.874rem; }
+.tab-btn        { font-size: 0.926rem; }
+```
+
+### Tab Active State
+
+```css
+background: #fff2c2;
+border: 2px solid #f2c84b;
+```
+
+### Layout Order (top to bottom)
+
+1. Icon row (blue circles, horizontal scroll)
+2. Summary card (bold title, key fields)
+3. Tab grid (2 columns, rounded buttons)
+4. Section blocks (Header > Card > Fields)
+
+### Field Display
+
+```
+Label  -->  bold
+Value  -->  normal weight
+```
+
+### Project Report Exception
+
+Project Report uses legacy class names from an earlier build. Map them like this:
+
+```
+.name         --> .summary-title
+.tile         --> .tab-btn
+.sectionTitle --> .section-header
+.k            --> .field-label
+.v            --> .field-value
+```
+
+---
+
+## Offline Setup Checklist
+
+Use this every time you add a new object.
+
+```
+[ ] Create View LWC
+[ ] Create Action LWC(s)
+[ ] Create Wrapper LWC(s) for each action
+[ ] Create .quickAction-meta.xml for each action
+[ ] Add Quick Actions to Page Layout
+    (Salesforce Mobile and Lightning Experience Actions section)
+[ ] Add object to Briefcase Builder
+[ ] Add related objects needed for lookup name resolution
+[ ] Assign Briefcase to user or app
+[ ] On mobile: refresh "My Offline Records"
+[ ] Verify sync completed
+```
+
+---
+
+## Common Errors and Fixes
+
+| Error | Cause | Fix |
+|---|---|---|
+| Component not showing | Missing `.view` quick action | Create and assign it |
+| Cannot change LWC type | Metadata locked | Create V2 component |
+| Styles not applying | CSS filename mismatch | Match filename exactly to component name |
+| Picklist empty on mobile | Metadata not cached | Add object to Briefcase, resync |
+| Lookup shows ID | Name not fetched offline | Add second `@wire(getRecord)` |
+| Action not visible on mobile | Wrong page layout | Add to Mobile Actions section |
+| Module not found | Wrapper component name mismatch | Match wrapper name to import exactly |
+| Duplicate Offline_Events | `Event_Id__c` not mapped in Create step | Add field mapping in Flow Create element |
+| Flow not triggering | Flow not activated | Activate and verify trigger is Created OR Updated, After Save |
+
+---
+
+## Repo Structure
+
+```
+force-app/
+  main/
+    default/
+      lwc/
+        viewAccountOfflineV2/
+        submitSaleAction/
+        referralAction/
+        markLostAction/
+        viewOpportunityOffline/
+        viewSiteInspection/
+        viewProjectReport/
+      quickActions/
+      flows/
+        Event_To_Offline_Event.flow-meta.xml
+        Case_Contact_Match.flow-meta.xml
+      objects/
+        Offline_Event__c/
+```
+
+---
+
+## Adding a New Object
+
+1. Copy an existing View LWC (Opportunity is the cleanest base)
+2. Update `@wire(getRecord)` fields to match the new object
+3. Add tabs for each workflow the object needs
+4. Create Action LWCs using the draft + `updateRecord` pattern
+5. Create Wrappers for each action
+6. Create Quick Actions and add to Page Layout
+7. Add the object to Briefcase Builder
+8. Test offline by putting the device in airplane mode before opening the record
+
+---
+## Tools and Setup
+ 
+This is everything you need installed before touching any code.
+ 
+### 1. Node.js
+ 
+The Salesforce CLI runs on Node.js. Install the LTS version.
+ 
+```
+https://nodejs.org/en/download
+```
+ 
+Verify after install:
+ 
+```bash
+node --version
+npm --version
+```
+ 
+---
+ 
+### 2. Salesforce CLI (sf v2)
+ 
+The main tool for deploying LWCs, metadata, and Quick Actions to your org. The old `sfdx` (v7) is deprecated. Use `sf` (v2).
+ 
+```bash
+npm install --global @salesforce/cli
+```
+ 
+Verify:
+ 
+```bash
+sf version
+```
+ 
+If you already have `sfdx` installed, uninstall it first or you will get a conflict:
+ 
+```bash
+# uninstall old CLI first
+npm uninstall --global sfdx-cli
+ 
+# then install sf v2
+npm install --global @salesforce/cli
+```
+ 
+Official install docs: https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_install_cli.htm
+ 
+---
+ 
+### 3. Visual Studio Code
+ 
+Download at:
+ 
+```
+https://code.visualstudio.com
+```
+ 
+---
+ 
+### 4. VS Code Extensions
+ 
+Install all three of these:
+ 
+| Extension | Purpose | Link |
+|---|---|---|
+| Salesforce Extension Pack | Core LWC + Apex + Org auth | https://marketplace.visualstudio.com/items?itemName=salesforce.salesforcedx-vscode |
+| Lightning Web Components | LWC syntax highlighting + autocomplete | https://marketplace.visualstudio.com/items?itemName=salesforce.salesforcedx-vscode-lwc |
+| Salesforce Mobile Extensions | Offline LWC linting + onboarding wizard + test harness | https://marketplace.visualstudio.com/items?itemName=salesforce.salesforcedx-vscode-mobile |
+ 
+The Mobile Extensions one is the most important for this project. It runs ESLint rules that catch offline violations before you deploy them. It also gives you the LWC Test Harness, which lets you debug components in a simulated offline state without needing a physical device every time.
+ 
+---
+ 
+### 5. Git
+ 
+For cloning and version control.
+ 
+```
+https://git-scm.com/downloads
+```
+ 
+---
+ 
+## Key Commands
+ 
+Authenticate to your org:
+ 
+```bash
+sf org login web --alias my-org
+```
+ 
+Deploy a single LWC:
+ 
+```bash
+sf project deploy start -p force-app/main/default/lwc/viewAccountOfflineV2
+```
+ 
+Deploy a Quick Action:
+ 
+```bash
+sf project deploy start -p force-app/main/default/quickActions/Account.view.quickAction-meta.xml
+```
+ 
+Deploy everything at once:
+ 
+```bash
+sf project deploy start -p force-app/
+```
+ 
+Pull changes from org back to local:
+ 
+```bash
+sf project retrieve start -p force-app/
+```
+ 
+---
+ 
+## Offline Starter Kit
+ 
+The official Salesforce offline starter kit. Contains working examples of `.view`, `.edit`, and `.create` Quick Actions, lookup handling, related records via GraphQL, and Briefcase setup. Use it as a reference when building new components.
+ 
+```
+https://github.com/salesforce/offline-app-developer-starter-kit
+```
+ 
+Clone it separately from this repo:
+ 
+```bash
+git clone https://github.com/salesforce/offline-app-developer-starter-kit.git
+```
+ 
+Check out a stable tagged release instead of running HEAD:
+ 
+```bash
+git tag -l
+git checkout v242.3.0
+```
+ 
+---
+ 
+## Learning Resources
+ 
+### Offline and Mobile
+ 
+| Resource | What it covers | Link |
+|---|---|---|
+| Mobile and Offline Developer Guide | Official reference for LWC offline, wire adapters, Quick Actions | https://developer.salesforce.com/docs/atlas.en-us.mobile_offline.meta/mobile_offline/intro.htm |
+| Offline Briefcase Trailhead | Briefcase Builder setup, filters, and user assignments | https://trailhead.salesforce.com/content/learn/modules/offline-briefcase |
+| Offline Starter Kit | Working code examples for every offline pattern | https://github.com/salesforce/offline-app-developer-starter-kit |
+| Build Better LWCs for Offline | ESLint rules, mobile tools, GraphQL queries for offline | https://developer.salesforce.com/blogs/2025/04/build-better-lwcs-for-offline-usage-with-salesforce-mobile-tools |
+| Offline App Onboarding Wizard | How to use the wizard and test harness | https://developer.salesforce.com/blogs/2023/07/introducing-the-salesforce-offline-app-onboarding-wizard |
+ 
+### LWC Fundamentals
+ 
+| Resource | What it covers | Link |
+|---|---|---|
+| Build Lightning Web Components Trail | Full LWC trail from scratch | https://trailhead.salesforce.com/content/learn/trails/build-lightning-web-components |
+| LWC Developer Guide | Wire adapters, component lifecycle, LDS | https://developer.salesforce.com/docs/component-library/documentation/en/lwc |
+ 
+### Salesforce CLI
+ 
+| Resource | Link |
+|---|---|
+| CLI Setup Guide | https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_intro.htm |
+| CLI Command Reference | https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference_unified.htm |
+ 
+---
+ 
+## Contact
+ 
+Built by **Enmanuel Mateo** — Salesforce Developer / Site Inspector at Sunly Energy.
+ 
+Questions about the offline architecture, LWC patterns, or Briefcase configuration: reach out before changing anything in the Flow or Quick Action layer. Small changes there break things silently.

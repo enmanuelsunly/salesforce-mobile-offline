@@ -1,0 +1,42 @@
+<template>
+    <lightning-card title="Roof">
+        <div class="slds-p-around_medium">
+
+            <!-- Roof Condition -->
+            <lightning-combobox
+                name="Roof_Condition__c"
+                label="Roof Condition"
+                value={form.Roof_Condition__c}
+                options={roofConditionOptions}
+                placeholder="--None--"
+                onchange={handleChange}>
+            </lightning-combobox>
+
+            <!-- Roof Notes (textarea, offline friendly) -->
+            <div class="slds-m-top_medium">
+                <lightning-textarea
+                    name="Roof_Notes__c"
+                    label="Roof Notes"
+                    value={form.Roof_Notes__c}
+                    onchange={handleChange}>
+                </lightning-textarea>
+            </div>
+
+            <!-- Buttons -->
+            <div class="slds-m-top_large slds-text-align_right">
+                <lightning-button
+                    variant="neutral"
+                    label="Cancel"
+                    onclick={handleCancel}
+                    class="slds-m-right_small">
+                </lightning-button>
+                <lightning-button
+                    variant="brand"
+                    label="Save"
+                    onclick={handleSave}
+                    disabled={isSaving}>
+                </lightning-button>
+            </div>
+        </div>
+    </lightning-card>
+</template>

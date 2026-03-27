@@ -1,0 +1,262 @@
+<template>
+    <div class="page">
+        <!-- Title -->
+        <h1 class="page-title">Opportunity (Offline)</h1>
+
+        <!-- Error -->
+        <template if:true={hasError}>
+            <div class="error">
+                Error loading Opportunity.
+            </div>
+        </template>
+
+        <!-- Summary Card -->
+        <template if:true={hasData}>
+            <div class="summary-card">
+                <div class="summary-title">{oppName}</div>
+
+                <div class="summary-kv">
+                    <div class="kv-row">
+                        <span class="kv-label">Stage:</span>
+                        <span class="kv-value">{stageName}</span>
+                    </div>
+
+                    <div class="kv-row">
+                        <span class="kv-label">Close Date:</span>
+                        <span class="kv-value">{closeDate}</span>
+                    </div>
+
+                    <template if:true={proposalUrl}>
+                        <div class="kv-row">
+                            <span class="kv-label">Proposal:</span>
+                            <a class="kv-link" href={proposalUrl} target="_blank" rel="noopener noreferrer">{proposalUrl}</a>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </template>
+
+        <!-- Tabs (Project Report style button grid) -->
+        <div class="tab-grid" role="tablist" aria-label="Opportunity Tabs">
+            <button class={detailsTabClass} data-tab="details" onclick={handleTabClick} role="tab" aria-selected={isDetails}>
+                Details
+            </button>
+
+            <button class={submitSaleTabClass} data-tab="submitSale" onclick={handleTabClick} role="tab" aria-selected={isSubmitSale}>
+                Submit Sale
+            </button>
+
+            <button class={referralTabClass} data-tab="referral" onclick={handleTabClick} role="tab" aria-selected={isReferral}>
+                Referral
+            </button>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <!-- DETAILS -->
+            <template if:true={isDetails}>
+                <!-- Overview -->
+                <h2 class="section-header">Overview</h2>
+                <div class="field-card">
+                    <div class="field-block">
+                        <div class="field-label">Opportunity Name</div>
+                        <div class="field-value">{oppName}</div>
+                    </div>
+
+                    <div class="field-block">
+                        <div class="field-label">Close Date</div>
+                        <div class="field-value">{closeDate}</div>
+                    </div>
+
+                    <div class="field-block">
+                        <div class="field-label">Stage</div>
+                        <div class="field-value">{stageName}</div>
+                    </div>
+
+                    <div class="field-block">
+                        <div class="field-label">Lost Reason</div>
+                        <div class="field-value">{lossReason}</div>
+                    </div>
+
+                    <div class="field-block">
+                        <div class="field-label">Sale Type</div>
+                        <div class="field-value">{saleType}</div>
+                    </div>
+
+                    <div class="field-block">
+                        <div class="field-label">Proposal</div>
+                        <div class="field-value">
+                            <template if:true={proposalUrl}>
+                                <a class="kv-link" href={proposalUrl} target="_blank" rel="noopener noreferrer">{proposalUrl}</a>
+                            </template>
+                            <template if:false={proposalUrl}>—</template>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Program -->
+                <h2 class="section-header">Program</h2>
+                <div class="field-card">
+                    <div class="field-block">
+                        <div class="field-label">Solar Program Type</div>
+                        <div class="field-value">{solarProgramType}</div>
+                    </div>
+
+                    <div class="field-block">
+                        <div class="field-label">Solar</div>
+                        <div class="field-value">{solarText}</div>
+                    </div>
+
+                    <div class="field-block">
+                        <div class="field-label">Battery</div>
+                        <div class="field-value">{batteryText}</div>
+                    </div>
+
+                    <div class="field-block">
+                        <div class="field-label">Open Solar Project Design</div>
+                        <div class="field-value">{openSolarProjectDesignName}</div>
+                    </div>
+                </div>
+
+                <!-- Property -->
+                <h2 class="section-header">Property</h2>
+                <div class="field-card">
+                    <div class="field-block">
+                        <div class="field-label">Property ID</div>
+                        <div class="field-value">{propertyId}</div>
+                    </div>
+
+                    <div class="field-block">
+                        <div class="field-label">Project Street</div>
+                        <div class="field-value">{projectStreet}</div>
+                    </div>
+
+                    <div class="field-block">
+                        <div class="field-label">City</div>
+                        <div class="field-value">{city}</div>
+                    </div>
+
+                    <div class="field-block">
+                        <div class="field-label">Province</div>
+                        <div class="field-value">{province}</div>
+                    </div>
+
+                    <div class="field-block">
+                        <div class="field-label">Postal Code</div>
+                        <div class="field-value">{postalCode}</div>
+                    </div>
+
+                    <div class="field-block">
+                        <div class="field-label">PID</div>
+                        <div class="field-value">{pid}</div>
+                    </div>
+
+                    <div class="field-block">
+                        <div class="field-label">Primary Residence</div>
+                        <div class="field-value">{primaryResidenceText}</div>
+                    </div>
+
+                    <div class="field-block">
+                        <div class="field-label">Roof Type</div>
+                        <div class="field-value">{roofType}</div>
+                    </div>
+
+                    <div class="field-block">
+                        <div class="field-label">Roof Age</div>
+                        <div class="field-value">{roofAge}</div>
+                    </div>
+
+                    <div class="field-block">
+                        <div class="field-label">Permanent Foundation</div>
+                        <div class="field-value">{permanentFoundationText}</div>
+                    </div>
+                </div>
+
+                <h2 class="section-header">Expected Load Increases</h2>
+                <div class="field-card">
+                    <template if:true={expectedLoadIncreases}>
+                        <div class="field-block">
+                            <div class="field-label">Notes</div>
+                            <div class="field-value prewrap">{expectedLoadIncreases}</div>
+                        </div>
+                    </template>
+                    <template if:false={expectedLoadIncreases}>
+                        <div class="field-block">
+                            <div class="field-label">Notes</div>
+                            <div class="field-value">—</div>
+                        </div>
+                    </template>
+                </div>
+
+                <!-- Homeowners -->
+                <h2 class="section-header">Homeowners</h2>
+                <div class="field-card">
+                    <div class="field-block">
+                        <div class="field-label">Homeowner 1</div>
+                        <div class="field-value">{homeowner1Name}</div>
+                    </div>
+
+                    <div class="field-block">
+                        <div class="field-label">Homeowner 2</div>
+                        <div class="field-value">{homeowner2Name}</div>
+                    </div>
+
+                    <div class="field-block">
+                        <div class="field-label">Homeowner 3</div>
+                        <div class="field-value">{homeowner3Name}</div>
+                    </div>
+                </div>
+
+                <!-- Billing -->
+                <h2 class="section-header">Billing</h2>
+                <div class="field-card">
+                    <div class="field-block">
+                        <div class="field-label">Utility</div>
+                        <div class="field-value">{utility}</div>
+                    </div>
+
+                    <div class="field-block">
+                        <div class="field-label">Full Name on LDC Bill</div>
+                        <div class="field-value">{fullNameOnLdcBill}</div>
+                    </div>
+
+                    <div class="field-block">
+                        <div class="field-label">Avg Utility Bill</div>
+                        <div class="field-value">{avgUtilityBill}</div>
+                    </div>
+
+                    <div class="field-block">
+                        <div class="field-label">Account Number on LDC Bill</div>
+                        <div class="field-value">{accountNumberOnLdcBill}</div>
+                    </div>
+                </div>
+            </template>
+
+            <!-- SUBMIT SALE ACTION -->
+            <template if:true={isSubmitSale}>
+                <h2 class="section-header">Submit Sale</h2>
+                <div class="panel-card">
+                    <c-opportunity-submit-sale-offline
+                        record-id={recordId}
+                        onclose={handleActionClose}>
+                    </c-opportunity-submit-sale-offline>
+                </div>
+            </template>
+
+            <!-- REFERRAL ACTION -->
+            <template if:true={isReferral}>
+                <h2 class="section-header">Referral</h2>
+                <div class="panel-card">
+                    <c-opportunity-referral-offline
+                        record-id={recordId}
+                        onclose={handleActionClose}>
+                    </c-opportunity-referral-offline>
+                </div>
+            </template>
+        </div>
+
+        <template if:false={hasData}>
+            <div class="loading">Loading...</div>
+        </template>
+    </div>
+</template>

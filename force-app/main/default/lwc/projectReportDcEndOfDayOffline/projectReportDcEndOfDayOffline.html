@@ -1,0 +1,86 @@
+<template>
+    <div class="slds-p-around_medium">
+
+        <template if:true={errorMessage}>
+            <div class="slds-text-color_error slds-m-bottom_small">{errorMessage}</div>
+        </template>
+
+        <template if:true={hasData}>
+            <div class="slds-m-bottom_medium">
+                <p><b>Project Name</b></p>
+                <div>{projectName}</div>
+            </div>
+
+            <lightning-input
+                type="checkbox"
+                label="DC Complete"
+                checked={dcCompleteValue}
+                data-field="DC_Complete__c"
+                onchange={handleCheckboxChange}>
+            </lightning-input>
+
+            <lightning-textarea
+                label="DC Punch List"
+                value={dcPunchListValue}
+                data-field="DC_Punch_List__c"
+                onchange={handleTextChange}>
+            </lightning-textarea>
+
+            <lightning-input
+                type="number"
+                step="0.0001"
+                label="Installed System Size (KW)"
+                value={installedSystemSizeValue}
+                data-field="Installed_System_SizeKW__c"
+                onchange={handleNumberChange}>
+            </lightning-input>
+
+            <lightning-input
+                type="checkbox"
+                label="Monitoring Device Installed"
+                checked={ecuInstalledValue}
+                data-field="ECU_Installed__c"
+                onchange={handleCheckboxChange}>
+            </lightning-input>
+
+            <lightning-input
+                type="checkbox"
+                label="Layout Changed on Site"
+                checked={layoutChangedValue}
+                data-field="Layout_Changed_on_Site__c"
+                onchange={handleCheckboxChange}>
+            </lightning-input>
+
+            <lightning-dual-listbox
+                name="installTeam"
+                label="Install Team"
+                source-label="Available"
+                selected-label="Chosen"
+                options={installTeamOptions}
+                value={installTeamSelected}
+                onchange={handleInstallTeamChange}>
+            </lightning-dual-listbox>
+
+            <lightning-textarea
+                label="Additional Team Members"
+                value={additionalTeamMembersValue}
+                data-field="Additional_Team_Members__c"
+                onchange={handleTextChange}>
+            </lightning-textarea>
+
+            <div class="slds-m-top_large slds-grid slds-grid_align-end slds-gutters_small">
+                <div class="slds-col">
+                    <lightning-button label="Cancel" onclick={handleCancel}></lightning-button>
+                </div>
+                <div class="slds-col">
+                    <lightning-button variant="brand" label="Save" onclick={handleSave} disabled={isSaving}></lightning-button>
+                </div>
+            </div>
+        </template>
+
+        <template if:false={hasData}>
+            <div class="slds-text-color_weak">Loading...</div>
+        </template>
+
+    </div>
+</template>

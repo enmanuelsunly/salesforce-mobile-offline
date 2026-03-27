@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QuickAction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label>Site Inspection (Vertical)</label>
+    <optionsCreateFeedItem>false</optionsCreateFeedItem>
+    <type>LightningWebComponent</type>
+
+    <!-- Must match the LWC folder name exactly -->
+    <lightningWebComponent>siteInspectionVerticalWrapper</lightningWebComponent>
+</QuickAction>

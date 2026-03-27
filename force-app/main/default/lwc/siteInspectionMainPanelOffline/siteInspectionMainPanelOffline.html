@@ -1,0 +1,92 @@
+<template>
+    <lightning-card title="Main Panel">
+        <div class="slds-p-around_small">
+
+            <!-- Main Panel Type (picklist) -->
+            <lightning-combobox
+                name="Main_Panel_Type__c"
+                label="Main Panel Type"
+                value={form.Main_Panel_Type__c}
+                options={mainPanelTypeOptions}
+                onchange={handleChange}>
+            </lightning-combobox>
+
+            <!-- Main Panel Breaker (picklist) -->
+            <lightning-combobox
+                name="Main_Panel_Breaker__c"
+                label="Main Panel Breaker"
+                value={form.Main_Panel_Breaker__c}
+                options={mainPanelBreakerOptions}
+                onchange={handleChange}>
+            </lightning-combobox>
+
+            <!-- Main Bus Rating (picklist) -->
+            <lightning-combobox
+                name="Main_Bus_Rating__c"
+                label="Main Bus Rating"
+                value={form.Main_Bus_Rating__c}
+                options={mainBusRatingOptions}
+                onchange={handleChange}>
+            </lightning-combobox>
+
+            <!-- Main Panel Brand (picklist) -->
+            <lightning-combobox
+                name="Main_Panel_Brand__c"
+                label="Main Panel Brand"
+                value={form.Main_Panel_Brand__c}
+                options={mainPanelBrandOptions}
+                onchange={handleChange}>
+            </lightning-combobox>
+
+            <!-- Panel Embedded (checkbox) -->
+            <lightning-input
+                type="checkbox"
+                name="Panel_Embedded__c"
+                label="Panel Embedded"
+                checked={form.Panel_Embedded__c}
+                onchange={handleChange}>
+            </lightning-input>
+
+            <!-- Embedded Type (picklist) -->
+            <lightning-combobox
+                name="Embedded_Type__c"
+                label="Embedded Type"
+                value={form.Embedded_Type__c}
+                options={embeddedTypeOptions}
+                onchange={handleChange}>
+            </lightning-combobox>
+
+            <!-- Embedded note (rich text → we use textarea in LWC) -->
+            <lightning-textarea
+                name="Embedded_note__c"
+                label="Embedded note"
+                value={form.Embedded_note__c}
+                onchange={handleChange}>
+            </lightning-textarea>
+
+            <!-- Main Panel Notes (rich text → textarea) -->
+            <lightning-textarea
+                name="Main_Panel_Notes__c"
+                label="Main Panel Notes"
+                value={form.Main_Panel_Notes__c}
+                onchange={handleChange}>
+            </lightning-textarea>
+
+            <div class="slds-m-top_medium slds-text-align_right">
+                <lightning-button
+                    variant="neutral"
+                    label="Cancel"
+                    onclick={handleCancel}
+                    class="slds-m-right_small">
+                </lightning-button>
+
+                <lightning-button
+                    variant="brand"
+                    label="Save"
+                    onclick={handleSave}
+                    disabled={isSaving}>
+                </lightning-button>
+            </div>
+        </div>
+    </lightning-card>
+</template>

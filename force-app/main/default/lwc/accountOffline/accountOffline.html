@@ -1,0 +1,82 @@
+<template>
+    <lightning-card title="Account Information">
+        <template if:true={account}>
+            <div class="slds-p-around_small">
+
+                <!-- Name -->
+                <p class="slds-text-heading_small slds-m-bottom_small">
+                    {account.name}
+                </p>
+
+                <!-- Phone -->
+                <template if:true={account.phone}>
+                    <p class="slds-m-bottom_xx-small">
+                        <strong>Phone: </strong>
+                        <lightning-formatted-phone value={account.phone}></lightning-formatted-phone>
+                    </p>
+                </template>
+
+                <!-- Email -->
+                <template if:true={account.email}>
+                    <p class="slds-m-bottom_xx-small">
+                        <strong>Email: </strong>
+                        <lightning-formatted-email value={account.email}></lightning-formatted-email>
+                    </p>
+                </template>
+
+                <!-- Billing Address (plain text, offline friendly) -->
+                <template if:true={account.billingStreet}>
+                    <p class="slds-m-top_small slds-m-bottom_xx-small">
+                        <strong>Billing Address:</strong>
+                    </p>
+                    <p>{account.billingStreet}</p>
+                    <p>
+                        <template if:true={account.billingCity}>
+                            {account.billingCity},
+                        </template>
+                        <template if:true={account.billingState}>
+                            {account.billingState}
+                        </template>
+                        <template if:true={account.billingPostalCode}>
+                            &nbsp;{account.billingPostalCode}
+                        </template>
+                    </p>
+                    <template if:true={account.billingCountry}>
+                        <p>{account.billingCountry}</p>
+                    </template>
+                </template>
+
+                <!-- Sale Date -->
+                <template if:true={account.saleDate}>
+                    <p class="slds-m-top_small slds-m-bottom_xx-small">
+                        <strong>Sale Date: </strong>
+                        <lightning-formatted-date-time
+                            value={account.saleDate}
+                            year="numeric"
+                            month="2-digit"
+                            day="2-digit">
+                        </lightning-formatted-date-time>
+                    </p>
+                </template>
+
+                <!-- Google Drive Folder -->
+                <template if:true={account.googleDriveFolder}>
+                    <p class="slds-m-top_small slds-m-bottom_xx-small">
+                        <strong>Google Drive Folder: </strong>
+                        <lightning-formatted-url
+                            value={account.googleDriveFolder}
+                            label={account.googleDriveFolder}>
+                        </lightning-formatted-url>
+                    </p>
+                </template>
+
+            </div>
+        </template>
+
+        <template if:false={account}>
+            <div class="slds-p-around_small slds-align_absolute-center">
+                <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+            </div>
+        </template>
+    </lightning-card>
+</template>

@@ -1,0 +1,118 @@
+/* Page wrapper */
+.page {
+    padding: 0.9rem;
+}
+
+/* Title */
+.page-title {
+    font-size: 1.294rem;   /* template */
+    font-weight: 800;
+    margin: 0 0 0.85rem 0;
+}
+
+/* Error */
+.error {
+    border: 1px solid #f3b8b8;
+    background: #fff5f5;
+    border-radius: 14px;
+    padding: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+/* Summary Card (top rounded card like Project Report) */
+.summary-card {
+    border: 1px solid #e6e6e6;
+    border-radius: 18px;
+    padding: 1rem;
+    background: #ffffff;
+    margin-bottom: 0.9rem;
+}
+
+.summary-title {
+    font-size: 1.254rem;   /* template */
+    font-weight: 800;
+    margin-bottom: 0.75rem;
+}
+
+.summary-kv .kv-row {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.35rem;
+    flex-wrap: wrap;
+}
+
+.kv-label {
+    font-weight: 800;
+}
+
+.kv-value {
+    font-weight: 500;
+}
+
+/* Tabs button grid like your screenshot */
+.tab-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.65rem;
+    margin-bottom: 1.1rem;
+}
+
+.tab-btn {
+    border: 1px solid #e6e6e6;
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 0.95rem 0.75rem;
+    font-size: 0.926rem;   /* template */
+    font-weight: 650;
+    text-align: center;
+}
+
+.tab-btn_active {
+    border: 2px solid #f2c84b; /* warm accent like screenshot */
+    background: #fffaf0;
+}
+
+/* Content */
+.content {
+    padding-bottom: 0.75rem;
+}
+
+.section-header {
+    font-size: 1.011rem;   /* template */
+    font-weight: 800;
+    margin: 0.5rem 0 0.75rem 0;
+}
+
+/* Field cards (Overview style) */
+.field-card,
+.panel-card {
+    border: 1px solid #e6e6e6;
+    border-radius: 18px;
+    padding: 0.9rem;
+    background: #ffffff;
+    margin-bottom: 0.9rem;
+}
+
+.field-block {
+    margin-bottom: 0.9rem;
+}
+
+.field-block:last-child {
+    margin-bottom: 0;
+}
+
+.field-label {
+    font-weight: 800;
+    font-size: 0.93rem;    /* template */
+    margin-bottom: 0.25rem;
+}
+
+.field-value {
+    font-size: 0.874rem;   /* template */
+    font-weight: 500;
+}
+
+/* Preserve line breaks in notes */
+.prewrap {
+    white-space: pre-wrap;
+}

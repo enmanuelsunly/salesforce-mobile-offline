@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QuickAction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <!-- OLD: <label>Site Inspection Structural (Wrapper)</label> -->
+    <label>Structural (Wrapper)</label>
+    <optionsCreateFeedItem>false</optionsCreateFeedItem>
+    <type>LightningWebComponent</type>
+    <lightningWebComponent>siteInspectionStructuralActionWrapper</lightningWebComponent>
+</QuickAction>

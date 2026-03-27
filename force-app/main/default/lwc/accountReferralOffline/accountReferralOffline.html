@@ -1,0 +1,112 @@
+<template>
+    <lightning-card title="Referral (Offline)">
+        <div class="slds-p-around_medium">
+
+            <!-- Account Name -->
+            <lightning-input
+                label="Account Name"
+                name="Name"
+                value={nameValue}
+                onchange={handleChange}
+                required>
+            </lightning-input>
+
+            <!-- Primary Email -->
+            <lightning-input
+                label="Primary Email"
+                name="Primary_Email__c"
+                type="email"
+                value={primaryEmailValue}
+                onchange={handleChange}>
+            </lightning-input>
+
+            <!-- Phone (standard Account.Phone) -->
+            <lightning-input
+                label="Phone"
+                name="Phone"
+                type="tel"
+                value={phoneValue}
+                onchange={handleChange}>
+            </lightning-input>
+
+            <!-- Referred By -->
+            <lightning-input
+            label="Referred By"
+            value={referredByName}
+            disabled>
+            </lightning-input>
+
+
+            <!-- Referral Type -->
+            <lightning-combobox
+                name="Enhanced_Referral__c"
+                label="Referral Type"
+                value={referralTypeValue}
+                options={referralTypeOptions}
+                onchange={handleChange}>
+            </lightning-combobox>
+
+            <!-- Sale Stages -->
+            <lightning-combobox
+                name="Sale_Stages__c"
+                label="Sale Stages"
+                value={saleStagesValue}
+                options={saleStagesOptions}
+                onchange={handleChange}>
+            </lightning-combobox>
+
+            <!-- Sales Company (required in your screenshot) -->
+            <lightning-combobox
+                name="Sales_Company__c"
+                label="Sales Company"
+                value={salesCompanyValue}
+                options={salesCompanyOptions}
+                onchange={handleChange}
+                required>
+            </lightning-combobox>
+
+            <!-- Account Stage (required) -->
+            <lightning-combobox
+                name="Account_Stage__c"
+                label="Account Stage"
+                value={accountStageValue}
+                options={accountStageOptions}
+                onchange={handleChange}
+                required>
+            </lightning-combobox>
+
+            <!-- Account Status (required) -->
+            <lightning-combobox
+                name="Account_Status__c"
+                label="Account Status"
+                value={accountStatusValue}
+                options={accountStatusOptions}
+                onchange={handleChange}
+                required>
+            </lightning-combobox>
+
+            <div class="slds-m-top_medium slds-align_absolute-center">
+                <lightning-button
+                    variant="neutral"
+                    label="Cancel"
+                    class="slds-m-right_small"
+                    onclick={handleCancel}>
+                </lightning-button>
+
+                <lightning-button
+                    variant="brand"
+                    label="Save"
+                    onclick={handleSave}
+                    disabled={isSaving}>
+                </lightning-button>
+            </div>
+
+            <template if:true={errorMessage}>
+                <div class="slds-m-top_small slds-text-color_error">
+                    {errorMessage}
+                </div>
+            </template>
+
+        </div>
+    </lightning-card>
+</template>

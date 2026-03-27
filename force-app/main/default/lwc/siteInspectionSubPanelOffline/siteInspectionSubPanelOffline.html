@@ -1,0 +1,116 @@
+<template>
+    <lightning-card title={panelTitle}>
+        <div class="slds-p-around_medium">
+
+            <!-- Type -->
+            <lightning-combobox
+                name="type"
+                label={typeLabel}
+                value={typeValue}
+                placeholder="--None--"
+                options={typeOptions}
+                onchange={handleTypeChange}>
+            </lightning-combobox>
+
+            <!-- Breaker -->
+            <lightning-combobox
+                name="breaker"
+                label={breakerLabel}
+                value={breakerValue}
+                placeholder="--None--"
+                options={breakerOptions}
+                onchange={handleBreakerChange}
+                class="slds-m-top_medium">
+            </lightning-combobox>
+
+            <!-- Bus Rating -->
+            <lightning-combobox
+                name="busRating"
+                label={busRatingLabel}
+                value={busRatingValue}
+                placeholder="--None--"
+                options={busRatingOptions}
+                onchange={handleBusRatingChange}
+                class="slds-m-top_medium">
+            </lightning-combobox>
+
+            <!-- Brand -->
+            <lightning-combobox
+                name="brand"
+                label={brandLabel}
+                value={brandValue}
+                placeholder="--None--"
+                options={brandOptions}
+                onchange={handleBrandChange}
+                class="slds-m-top_medium">
+            </lightning-combobox>
+
+            <!-- Embedded checkbox -->
+            <lightning-input
+                type="checkbox"
+                label={embeddedLabel}
+                checked={embeddedChecked}
+                onchange={handleEmbeddedChange}
+                class="slds-m-top_medium">
+            </lightning-input>
+
+            <!-- Embedded Type -->
+            <lightning-combobox
+                name="embeddedType"
+                label={embeddedTypeLabel}
+                value={embeddedTypeValue}
+                placeholder="--None--"
+                options={embeddedTypeOptions}
+                onchange={handleEmbeddedTypeChange}
+                class="slds-m-top_medium">
+            </lightning-combobox>
+
+            <!-- Fed by Breaker Size -->
+            <lightning-input
+                type="text"
+                label={fedByBreakerSizeLabel}
+                value={fedByBreakerSizeValue}
+                onchange={handleFedByBreakerSizeChange}
+                class="slds-m-top_medium">
+            </lightning-input>
+
+            <!-- Embedded Note -->
+            <lightning-textarea
+                label={embeddedNoteLabel}
+                value={embeddedNoteValue}
+                onchange={handleEmbeddedNoteChange}
+                class="slds-m-top_medium">
+            </lightning-textarea>
+
+            <!-- Notes -->
+            <lightning-textarea
+                label={notesLabel}
+                value={notesValue}
+                onchange={handleNotesChange}
+                class="slds-m-top_medium">
+            </lightning-textarea>
+
+            <!-- Buttons -->
+            <div class="slds-m-top_large slds-text-align_right">
+                <lightning-button
+                    variant="neutral"
+                    label="Cancel"
+                    onclick={handleCancel}>
+                </lightning-button>
+
+                <lightning-button
+                    variant="brand"
+                    label="Save"
+                    onclick={handleSave}
+                    class="slds-m-left_small">
+                </lightning-button>
+            </div>
+
+            <template if:true={error}>
+                <p class="slds-text-color_error slds-m-top_small">
+                    Error saving Sub Panel {panelNumber}. Try again.
+                </p>
+            </template>
+        </div>
+    </lightning-card>
+</template>

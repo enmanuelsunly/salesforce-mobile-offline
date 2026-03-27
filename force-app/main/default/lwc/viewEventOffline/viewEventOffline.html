@@ -1,0 +1,106 @@
+<template>
+  <lightning-card title="Event (Offline)">
+    <div class="slds-p-around_medium">
+
+      <template if:true={hasData}>
+        <!-- Header -->
+        <div class="header">
+          <div class="name">{subject}</div>
+
+          <div class="line">
+            <span class="label">Start:</span>
+            <span>{startText}</span>
+          </div>
+
+          <div class="line">
+            <span class="label">End:</span>
+            <span>{endText}</span>
+          </div>
+
+          <div class="line">
+            <span class="label">Meeting Type:</span>
+            <span>{meetingTypeLabel}</span>
+          </div>
+
+          <div class="line">
+            <span class="label">Related To:</span>
+            <span>{relatedToDisplay}</span>
+          </div>
+        </div>
+
+        <!-- Launcher buttons -->
+        <div class="grid slds-m-top_medium">
+          <button class={detailsBtnClass} onclick={openDetails} type="button">Details</button>
+          <button class={timingBtnClass} onclick={openTiming} type="button">Timing</button>
+          <button class={notesBtnClass} onclick={openNotes} type="button">Notes</button>
+        </div>
+
+        <!-- Content -->
+        <div class="slds-m-top_large">
+
+          <!-- Details -->
+          <template if:true={isDetails}>
+            <div class="sectionTitle">Details</div>
+
+            <div class="kv">
+              <div class="k">Subject</div>
+              <div class="v">{subject}</div>
+            </div>
+
+            <div class="kv">
+              <div class="k">Meeting Type</div>
+              <div class="v">{meetingTypeLabel}</div>
+            </div>
+
+            <div class="kv">
+              <div class="k">Related To</div>
+              <div class="v">{relatedToDisplay}</div>
+            </div>
+
+            <div class="kv">
+              <div class="k">Location</div>
+              <div class="v">{location}</div>
+            </div>
+          </template>
+
+          <!-- Timing -->
+          <template if:true={isTiming}>
+            <div class="sectionTitle">Timing</div>
+
+            <div class="kv">
+              <div class="k">Start</div>
+              <div class="v">{startText}</div>
+            </div>
+
+            <div class="kv">
+              <div class="k">End</div>
+              <div class="v">{endText}</div>
+            </div>
+          </template>
+
+          <!-- Notes -->
+          <template if:true={isNotes}>
+            <div class="sectionTitle">Description</div>
+
+            <template if:true={description}>
+              <div class="multiline">{description}</div>
+            </template>
+            <template if:false={description}>
+              <div class="placeholder">—</div>
+            </template>
+          </template>
+
+        </div>
+      </template>
+
+      <template if:false={hasData}>
+        <div class="slds-text-color_weak">Loading...</div>
+      </template>
+
+      <template if:true={errorMessage}>
+        <div class="slds-text-color_error slds-m-top_small">{errorMessage}</div>
+      </template>
+
+    </div>
+  </lightning-card>
+</template>

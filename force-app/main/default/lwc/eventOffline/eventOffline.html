@@ -1,0 +1,33 @@
+<template>
+    <lightning-card title="Event (Offline)">
+        <div class="slds-p-around_medium">
+            <!-- Data loaded -->
+            <template if:true={hasData}>
+                <p class="slds-text-heading_small slds-m-bottom_small">
+                    {subject}
+                </p>
+
+                <p if:true={startDate}>
+                    <strong>Start:</strong> {startDate}
+                </p>
+                <p if:true={endDate}>
+                    <strong>End:</strong> {endDate}
+                </p>
+                <p if:true={whatId}>
+                    <strong>Related To Id:</strong> {whatId}
+                </p>
+            </template>
+
+            <!-- Error state -->
+            <template if:true={hasError}>
+                <p class="slds-text-color_error slds-m-bottom_x-small">
+                    Error loading Event.
+                </p>
+                <!-- TEMP: show actual error to debug -->
+                <pre class="slds-text-body_small">
+{errorMessage}
+                </pre>
+            </template>
+        </div>
+    </lightning-card>
+</template>

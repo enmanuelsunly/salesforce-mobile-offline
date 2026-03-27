@@ -1,0 +1,56 @@
+<template>
+    <lightning-card title="Account">
+        <div class="slds-p-around_medium">
+            <template if:true={hasData}>
+                <div class="header">
+                    <div class="name">{accountName}</div>
+
+                    <template if:true={phone}>
+                        <div class="line">
+                            <span class="label">Phone:</span>
+                            <a href={phoneHref}>{phone}</a>
+                        </div>
+                    </template>
+
+                    <template if:true={billingLine}>
+                        <div class="line">
+                            <span class="label">Billing:</span>
+                            <span>{billingLine}</span>
+                        </div>
+                    </template>
+                </div>
+
+                <!-- Modern button grid (same idea as Site Inspection) -->
+                <div class="grid slds-m-top_medium">
+
+                    <button class={identityBtnClass} onclick={openIdentity} type="button">
+                        Identity
+                    </button>
+
+                    <button class={detailsBtnClass} onclick={openDetails} type="button">
+                        Details
+                    </button>
+                </div>
+
+                <div class="slds-m-top_large">
+                    
+                    <template if:true={isIdentity}>
+                        <c-account-identity-offline record-id={recordId}></c-account-identity-offline>
+                    </template>
+
+                    <template if:true={isDetails}>
+                        <div class="slds-text-body_regular">
+                            Pick a section above 👆
+                        </div>
+                    </template>
+                </div>
+            </template>
+
+            <template if:true={errorMessage}>
+                <div class="slds-text-color_error">
+                    {errorMessage}
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>

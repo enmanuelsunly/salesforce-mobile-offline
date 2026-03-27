@@ -1,0 +1,108 @@
+.header {
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 0.75rem;
+  background: #fff;
+}
+
+.name {
+  font-size: 1.254rem;   /* template: summary-title */
+  font-weight: 800;
+  margin-bottom: 0.4rem;
+}
+
+.line {
+  display: flex;
+  gap: 0.35rem;
+  margin: 0.2rem 0;
+  flex-wrap: wrap;
+}
+
+.label {
+  font-weight: 700;
+}
+
+/* Buttons grid */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.tile {
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  border-radius: 12px;
+  padding: 0.65rem 0.6rem;
+  font-size: 0.926rem;   /* template: tab-btn */
+  cursor: pointer;
+  text-align: center;
+}
+
+.tile.active {
+  border-color: #c7a10a;
+  background: #fff9db;
+  font-weight: 800;
+}
+
+/* Section headers */
+.sectionTitle {
+  font-size: 1.011rem;   /* template: section-header */
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+/* Key/Value cards */
+.kv {
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 0.65rem;
+  margin-bottom: 0.5rem;
+  background: #fff;
+}
+
+.k {
+  font-size: 0.93rem;    /* template: field-label */
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+}
+
+.v {
+  font-size: 0.874rem;   /* template: field-value */
+  white-space: pre-wrap;
+}
+
+/* Large text blocks */
+.multiline {
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 0.85rem;
+  background: #fff;
+  white-space: pre-line;
+  line-height: 1.25rem; /* keep your line height */
+  font-size: 0.874rem;  /* template: field-value */
+}
+
+.placeholder {
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 0.85rem;
+  background: #fff;
+  color: #606266;
+  font-size: 0.874rem;  /* template: field-value */
+}
+
+/* --- Action tile styling --- */
+.actionsGrid {
+  grid-template-columns: 1fr 1fr;
+}
+
+.actionTile {
+  border-color: #c7a10a;
+  background: #fffdf2;
+  font-weight: 800;
+}
+
+.actionTile:active {
+  transform: translateY(1px);
+}

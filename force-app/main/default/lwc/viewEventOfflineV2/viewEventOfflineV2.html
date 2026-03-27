@@ -1,0 +1,167 @@
+<template>
+  <lightning-card title="Offline Event">
+    <div class="slds-p-around_medium">
+
+      <template if:true={hasData}>
+        <!-- Header -->
+        <div class="header">
+          <div class="name">{subjectValue}</div>
+
+          <div class="line">
+            <span class="label">Start:</span>
+            <span>{startText}</span>
+          </div>
+
+          <div class="line">
+            <span class="label">End:</span>
+            <span>{endText}</span>
+          </div>
+
+          <div class="line">
+            <span class="label">Meeting Type:</span>
+            <span>{meetingTypeLabel}</span>
+          </div>
+
+          <div class="line">
+            <span class="label">Related To:</span>
+            <span>{relatedToNameValue}</span>
+          </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="grid slds-m-top_medium">
+          <button class={detailsBtnClass} onclick={openDetails} type="button">Details</button>
+          <button class={timingBtnClass} onclick={openTiming} type="button">Timing</button>
+          <button class={notesBtnClass} onclick={openNotes} type="button">Notes</button>
+          <button class={syncBtnClass} onclick={openSync} type="button">Sync</button>
+        </div>
+
+        <!-- Content -->
+        <div class="slds-m-top_large">
+
+          <!-- Details -->
+          <template if:true={isDetails}>
+            <div class="sectionTitle">Details</div>
+
+            <lightning-input
+              label="Subject"
+              value={subjectValue}
+              onchange={handleInputChange}
+              data-field="Subject__c">
+            </lightning-input>
+
+            <lightning-input
+              class="slds-m-top_medium"
+              label="Location"
+              value={locationValue}
+              onchange={handleInputChange}
+              data-field="Location__c">
+            </lightning-input>
+
+            <lightning-combobox
+              class="slds-m-top_medium"
+              label="Meeting Type"
+              value={meetingTypeValue}
+              options={meetingTypeOptions}
+              onchange={handlePicklistChange}
+              data-field="Meeting_Type__c">
+            </lightning-combobox>
+
+            <lightning-input
+              class="slds-m-top_medium"
+              label="Related To Name"
+              value={relatedToNameValue}
+              onchange={handleInputChange}
+              data-field="Related_To_Name__c">
+            </lightning-input>
+
+            <lightning-input
+              class="slds-m-top_medium"
+              label="Related To Id"
+              value={relatedToIdValue}
+              onchange={handleInputChange}
+              data-field="Related_To_Id__c">
+            </lightning-input>
+          </template>
+
+          <!-- Timing -->
+          <template if:true={isTiming}>
+            <div class="sectionTitle">Timing</div>
+
+            <lightning-input
+              type="datetime"
+              label="Start"
+              value={startValue}
+              onchange={handleInputChange}
+              data-field="Start__c">
+            </lightning-input>
+
+            <lightning-input
+              class="slds-m-top_medium"
+              type="datetime"
+              label="End"
+              value={endValue}
+              onchange={handleInputChange}
+              data-field="End__c">
+            </lightning-input>
+          </template>
+
+          <!-- Notes -->
+          <template if:true={isNotes}>
+            <div class="sectionTitle">Description</div>
+
+            <lightning-textarea
+              value={descriptionValue}
+              onchange={handleInputChange}
+              data-field="Description__c">
+            </lightning-textarea>
+          </template>
+
+          <!-- Sync -->
+          <template if:true={isSync}>
+            <div class="sectionTitle">Sync to Event</div>
+
+            <div class="kv">
+              <div class="k">Source Event Id</div>
+              <div class="v">{eventIdValue}</div>
+            </div>
+
+            <div class="slds-text-color_weak slds-m-bottom_medium">
+              Save works offline. “Push to Event” needs internet and valid access.
+            </div>
+
+            <lightning-button
+              variant="brand"
+              label="Push to Event"
+              onclick={handlePushToEvent}
+              disabled={isPushing}>
+            </lightning-button>
+          </template>
+
+        </div>
+
+        <!-- Errors -->
+        <template if:true={errorMessage}>
+          <div class="slds-text-color_error slds-m-top_medium">{errorMessage}</div>
+        </template>
+
+        <!-- Footer buttons -->
+        <div class="slds-grid slds-grid_align-end slds-m-top_large">
+          <lightning-button label="Cancel" onclick={handleCancel}></lightning-button>
+          <lightning-button
+            class="slds-m-left_small"
+            variant="brand"
+            label="Save"
+            onclick={handleSave}
+            disabled={isSaving}>
+          </lightning-button>
+        </div>
+      </template>
+
+      <template if:false={hasData}>
+        <div class="slds-text-color_weak">Loading...</div>
+      </template>
+
+    </div>
+  </lightning-card>
+</template>

@@ -1,0 +1,162 @@
+<template>
+  <div class="slds-p-around_medium">
+
+    <template if:true={errorMessage}>
+      <div class="slds-text-color_error slds-m-bottom_small">{errorMessage}</div>
+    </template>
+
+    <template if:true={hasData}>
+      <!-- Project Name (read-only) -->
+      <div class="slds-m-bottom_medium">
+        <p><b>Project Name</b></p>
+        <div>{projectName}</div>
+      </div>
+
+      <!-- Site Inspection Path (Picklist) -->
+      <div class="slds-m-bottom_medium">
+        <lightning-combobox
+          label="Site Inspection Path"
+          value={siteInspectionPathValue}
+          options={siteInspectionPathOptions}
+          onchange={handlePicklistChange}
+          data-field="Site_Inspection_Path__c">
+        </lightning-combobox>
+      </div>
+
+      <!-- Scheduled Site Inspection (Date) -->
+      <div class="slds-m-bottom_medium">
+        <lightning-input
+          type="date"
+          label="Scheduled Site Inspection"
+          value={scheduledSiteInspectionValue}
+          onchange={handleDateChange}
+          data-field="Scheduled_Site_Inspection__c">
+        </lightning-input>
+      </div>
+
+      <!-- Booking Status (Picklist) -->
+      <div class="slds-m-bottom_medium">
+        <lightning-combobox
+          label="Site Inspection Booking Status"
+          value={bookingStatusValue}
+          options={bookingStatusOptions}
+          onchange={handlePicklistChange}
+          data-field="Site_Inspection_Booking_Status__c">
+        </lightning-combobox>
+      </div>
+
+      <!-- Reason for Revisit (Picklist) -->
+      <div class="slds-m-bottom_medium">
+        <lightning-combobox
+          label="Reason for Revisit"
+          value={reasonForRevisitValue}
+          options={reasonForRevisitOptions}
+          onchange={handlePicklistChange}
+          data-field="Reason_for_Revist__c">
+        </lightning-combobox>
+      </div>
+
+      <!-- Revisit Notes - Site Inspection -->
+      <div class="slds-m-bottom_medium">
+        <lightning-textarea
+          label="Revisit Notes - Site Inspection"
+          value={revisitNotesValue}
+          onchange={handleTextChange}
+          data-field="Revisit_Notes_Site_Inspection__c">
+        </lightning-textarea>
+      </div>
+
+      <!-- Notes for Site Inspection -->
+      <div class="slds-m-bottom_medium">
+        <lightning-textarea
+          label="Notes for Site Inspection"
+          value={notesForSiteInspectionValue}
+          onchange={handleTextChange}
+          data-field="Notes_for_Site_Inspection__c">
+        </lightning-textarea>
+      </div>
+
+      <!-- Completion Checkboxes -->
+      <div class="slds-m-top_medium">
+        <lightning-input
+          type="checkbox"
+          label="SI - Structural Complete"
+          checked={siStructuralCompleteValue}
+          onchange={handleCheckboxChange}
+          data-field="SI_Structural_Complete__c">
+        </lightning-input>
+
+        <lightning-input
+          type="checkbox"
+          label="SI - Electrical Complete"
+          checked={siElectricalCompleteValue}
+          onchange={handleCheckboxChange}
+          data-field="SI_Electrical_Complete__c">
+        </lightning-input>
+
+        <lightning-input
+          type="checkbox"
+          label="SI - Drone Complete"
+          checked={siDroneCompleteValue}
+          onchange={handleCheckboxChange}
+          data-field="SI_Drone_Complete__c">
+        </lightning-input>
+
+        <lightning-input
+          type="checkbox"
+          label="SI - Additional Complete"
+          checked={siAdditionalCompleteValue}
+          onchange={handleCheckboxChange}
+          data-field="SI_Additional_Complete__c">
+        </lightning-input>
+
+        <lightning-input
+          type="checkbox"
+          label="Site Inspection Uploaded"
+          checked={siteInspectionUploadedValue}
+          onchange={handleCheckboxChange}
+          data-field="Site_Inspection_Uploaded__c">
+        </lightning-input>
+      </div>
+
+      <!-- Site Inspection Google (Formula link - read only) -->
+      <div class="slds-m-top_medium slds-m-bottom_medium">
+        <p><b>Site Inspection Google</b></p>
+        <template if:true={siteInspectionGoogle}>
+          <a href={siteInspectionGoogle} target="_blank" rel="noopener noreferrer">
+            {siteInspectionGoogle}
+          </a>
+        </template>
+        <template if:false={siteInspectionGoogle}>
+          <div class="slds-text-color_weak">—</div>
+        </template>
+      </div>
+
+      <!-- Site Inspection Complete -->
+      <div class="slds-m-bottom_medium">
+        <lightning-input
+          type="checkbox"
+          label="Site Inspection Complete"
+          checked={siteInspectionCompleteValue}
+          onchange={handleCheckboxChange}
+          data-field="Site_Inspection_Complete__c">
+        </lightning-input>
+      </div>
+
+      <!-- Footer -->
+      <div class="slds-m-top_large slds-grid slds-grid_align-end slds-gutters_small">
+        <div class="slds-col">
+          <lightning-button label="Cancel" onclick={handleCancel}></lightning-button>
+        </div>
+        <div class="slds-col">
+          <lightning-button variant="brand" label="Save" onclick={handleSave} disabled={isSaving}></lightning-button>
+        </div>
+      </div>
+    </template>
+
+    <template if:false={hasData}>
+      <div class="slds-text-color_weak">Loading...</div>
+    </template>
+
+  </div>
+</template>

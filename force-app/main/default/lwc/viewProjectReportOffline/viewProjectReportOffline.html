@@ -1,0 +1,216 @@
+<template>
+  <lightning-card title="Project Report (Offline)">
+    <div class="slds-p-around_medium">
+
+      <template if:true={hasData}>
+        <!-- Header -->
+        <div class="header">
+          <div class="name">{projectName}</div>
+
+          <template if:true={accountName}>
+            <div class="line">
+              <span class="label">Account:</span>
+              <span>{accountName}</span>
+            </div>
+          </template>
+
+          <template if:true={clientAddress}>
+            <div class="line">
+              <span class="label">Client Address:</span>
+              <span>{clientAddress}</span>
+            </div>
+          </template>
+
+          <template if:true={installationStatus}>
+            <div class="line">
+              <span class="label">Installation Status:</span>
+              <span>{installationStatus}</span>
+            </div>
+          </template>
+
+          <template if:true={installationType}>
+            <div class="line">
+              <span class="label">Installation Type:</span>
+              <span>{installationType}</span>
+            </div>
+          </template>
+        </div>
+
+        <!-- Launcher buttons -->
+        <div class="grid slds-m-top_medium">
+          <button class={detailsBtnClass} onclick={openDetails} type="button" aria-pressed={isDetails}>Details</button>
+          <button class={dcEndOfDayBtnClass} onclick={openDcEndOfDay} type="button" aria-pressed={isActionDc}>DC End of Day</button>
+          <button class={acEndOfDayBtnClass} onclick={openAcEndOfDay} type="button" aria-pressed={isActionAc}>AC End of Day</button>
+          <button class={siteInspectionActionBtnClass} onclick={openSiteInspectionAction} type="button" aria-pressed={isActionSi}>Site inspection</button>
+          <button class={trenchingEndOfDayBtnClass} onclick={openTrenchingEndOfDay} type="button" aria-pressed={isActionTrench}>Trenching End of Day</button>
+        </div>
+
+        <!-- Content -->
+        <div class="slds-m-top_large">
+
+          <!-- Action screens (render action LWCs directly) -->
+          <template if:true={isActionDc}>
+            <c-project-report-dc-end-of-day-offline
+              record-id={recordId}
+              onclose={handleActionClose}>
+            </c-project-report-dc-end-of-day-offline>
+          </template>
+
+          <template if:true={isActionAc}>
+            <c-project-report-ac-end-of-day-offline
+              record-id={recordId}
+              onclose={handleActionClose}>
+            </c-project-report-ac-end-of-day-offline>
+          </template>
+
+          <template if:true={isActionSi}>
+            <c-project-report-site-inspection-offline
+              record-id={recordId}
+              onclose={handleActionClose}>
+            </c-project-report-site-inspection-offline>
+          </template>
+
+          <template if:true={isActionTrench}>
+            <c-project-report-trenching-end-of-day-offline
+              record-id={recordId}
+              onclose={handleActionClose}>
+            </c-project-report-trenching-end-of-day-offline>
+          </template>
+
+          <!-- Overview -->
+          
+          <!-- Details -->
+          <template if:true={isDetails}>
+            <div class="sectionTitle">Overview</div>
+
+            <div class="kv">
+              <div class="k">Project Name</div>
+              <div class="v">{projectName}</div>
+            </div>
+
+            <div class="kv">
+              <div class="k">Account</div>
+              <div class="v">{accountName}</div>
+            </div>
+
+            <div class="kv">
+              <div class="k">Client Address</div>
+              <div class="v">{clientAddress}</div>
+            </div>
+
+            <div class="kv">
+              <div class="k">Installation Type</div>
+              <div class="v">{installationType}</div>
+            </div>
+
+            <div class="kv">
+              <div class="k">Installation Status</div>
+              <div class="v">{installationStatus}</div>
+            </div>
+
+            <div class="sectionTitle">Key Install Details</div>
+            <template if:true={keyInstallDetails}>
+              <div class="multiline">{keyInstallDetails}</div>
+            </template>
+            <template if:false={keyInstallDetails}>
+              <div class="placeholder">No Key Install Details.</div>
+            </template>
+
+            <div class="sectionTitle slds-m-top_large">Notes for Installers</div>
+            <template if:true={notesForInstallers}>
+              <div class="multiline">{notesForInstallers}</div>
+            </template>
+            <template if:false={notesForInstallers}>
+              <div class="placeholder">No Notes for Installers.</div>
+            </template>
+
+            <div class="sectionTitle">Site Inspection</div>
+
+            <div class="kv">
+              <div class="k">Path</div>
+              <div class="v">{siteInspectionPath}</div>
+            </div>
+
+            <div class="kv">
+              <div class="k">Complete</div>
+              <div class="v">{siteInspectionCompleteText}</div>
+            </div>
+
+            <div class="kv">
+              <div class="k">Uploaded</div>
+              <div class="v">{siteInspectionUploadedText}</div>
+            </div>
+
+            <div class="kv">
+              <div class="k">SI - Electrical Complete</div>
+              <div class="v">{siElectricalCompleteText}</div>
+            </div>
+
+            <div class="kv">
+              <div class="k">SI - Structural Complete</div>
+              <div class="v">{siStructuralCompleteText}</div>
+            </div>
+
+            <div class="kv">
+              <div class="k">SI - Drone Complete</div>
+              <div class="v">{siDroneCompleteText}</div>
+            </div>
+
+            <div class="kv">
+              <div class="k">SI - Additional Complete</div>
+              <div class="v">{siAdditionalCompleteText}</div>
+            </div>
+
+            <div class="sectionTitle slds-m-top_large">Notes for Site Inspection</div>
+            <template if:true={notesForSiteInspection}>
+              <div class="multiline">{notesForSiteInspection}</div>
+            </template>
+            <template if:false={notesForSiteInspection}>
+              <div class="placeholder">No Notes for Site Inspection.</div>
+            </template>
+
+            <div class="sectionTitle">Electrician Notes</div>
+            <template if:true={electricianNotes}>
+              <div class="multiline">{electricianNotes}</div>
+            </template>
+            <template if:false={electricianNotes}>
+              <div class="placeholder">No Electrician Notes.</div>
+            </template>
+
+            <div class="sectionTitle">Folders / Links</div>
+
+            <div class="kv">
+              <div class="k">AC Folder</div>
+              <div class="v">{acFolder}</div>
+            </div>
+
+            <div class="kv">
+              <div class="k">DC Folder</div>
+              <div class="v">{dcFolder}</div>
+            </div>
+
+            <div class="kv">
+              <div class="k">Site Inspection Google</div>
+              <div class="v">{siteInspectionGoogle}</div>
+            </div>
+
+            <div class="kv">
+              <div class="k">Site Inspection Folder</div>
+              <div class="v">{siteInspectionFolder}</div>
+            </div>
+          </template>
+
+
+        </div>
+      </template>
+
+      <template if:false={hasData}>
+        <div class="slds-text-color_weak">Loading...</div>
+      </template>
+
+      <template if:true={errorMessage}>
+        <div class="slds-text-color_error slds-m-top_small">{errorMessage}</div>
+      </template>
+    </div>
+  </lightning-card>
+</template>

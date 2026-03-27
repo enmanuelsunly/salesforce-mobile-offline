@@ -1,0 +1,51 @@
+<template>
+    <lightning-card title="Ground">
+        <div class="slds-p-around_medium">
+
+            <!-- Main Panel & Meter to Array Distance Tot -->
+            <lightning-input
+                type="text"
+                name="Main_Panel_Meter_to_Array_Distance_Tot__c"
+                label="Main Panel & Meter to Array Distance Tot"
+                value={form.Main_Panel_Meter_to_Array_Distance_Tot__c}
+                onchange={handleChange}>
+            </lightning-input>
+
+            <!-- Trenching Distance Total -->
+            <lightning-input
+                class="slds-m-top_medium"
+                type="text"
+                name="Trenching_Distance_Total__c"
+                label="Trenching Distance Total"
+                value={form.Trenching_Distance_Total__c}
+                onchange={handleChange}>
+            </lightning-input>
+
+            <!-- Ground Notes (plain textarea, offline-friendly) -->
+            <div class="slds-m-top_medium">
+                <lightning-textarea
+                    name="Ground_Notes__c"
+                    label="Ground Notes"
+                    value={form.Ground_Notes__c}
+                    onchange={handleChange}>
+                </lightning-textarea>
+            </div>
+
+            <!-- Buttons -->
+            <div class="slds-m-top_large slds-text-align_right">
+                <lightning-button
+                    variant="neutral"
+                    label="Cancel"
+                    onclick={handleCancel}
+                    class="slds-m-right_small">
+                </lightning-button>
+                <lightning-button
+                    variant="brand"
+                    label="Save"
+                    onclick={handleSave}
+                    disabled={isSaving}>
+                </lightning-button>
+            </div>
+        </div>
+    </lightning-card>
+</template>

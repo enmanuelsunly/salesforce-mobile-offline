@@ -1,0 +1,114 @@
+.page {
+  padding: 0.693rem;
+}
+
+.page-title {
+  font-size: 1.294rem;
+  font-weight: 800;
+  margin: 0 0 0.655rem 0;
+}
+
+.error {
+  border: 1px solid #f3b8b8;
+  background: #fff5f5;
+  border-radius: 12.32px;
+  padding: 0.655rem;
+  margin-bottom: 0.578rem;
+}
+
+.loading {
+  color: #7a7a7a;
+  margin-top: 0.578rem;
+}
+
+/* Summary Card */
+.summary-card {
+  border: 1px solid #e6e6e6;
+  border-radius: 15.4px;
+  padding: 0.809rem;
+  background: #ffffff;
+  margin-bottom: 0.732rem;
+}
+
+.summary-title {
+  font-size: 1.254rem;
+  font-weight: 800;
+  margin-bottom: 0.578rem;
+}
+
+.summary-kv .kv-row {
+  display: flex;
+  gap: 0.385rem;
+  margin-bottom: 0.27rem;
+  flex-wrap: wrap;
+}
+
+.kv-label { font-weight: 800; }
+.kv-value { font-weight: 500; }
+
+.kv-link {
+  font-weight: 650;
+  text-decoration: underline;
+  word-break: break-word;
+}
+
+/* Tabs button grid */
+.tab-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.578rem;
+  margin-bottom: 0.847rem;
+}
+
+.tab-btn {
+  border: 1px solid #e6e6e6;
+  background: #ffffff;
+  border-radius: 12.32px;
+  padding: 0.809rem 0.655rem;
+  font-size: 0.926rem;
+  font-weight: 650;
+  text-align: center;
+}
+
+.tab-btn_active {
+  border: 2px solid #f2c84b;
+  background: #fff2c2;
+  font-weight: 800;
+}
+
+/* Content */
+.content {
+  padding-bottom: 0.578rem;
+}
+
+.section-header {
+  font-size: 1.011rem;
+  font-weight: 800;
+  margin: 0.385rem 0 0.578rem 0;
+}
+
+/* Field cards */
+.field-card,
+.panel-card {
+  border: 1px solid #e6e6e6;
+  border-radius: 15.4px;
+  padding: 0.77rem;
+  background: #ffffff;
+  margin-bottom: 0.732rem;
+}
+
+.field-block { margin-bottom: 0.77rem; }
+.field-block:last-child { margin-bottom: 0; }
+
+.field-label {
+  font-weight: 900;
+  font-size: 0.93rem;
+  margin-bottom: 0.193rem;
+}
+
+.field-value {
+  font-size: 0.926rem;
+  font-weight: 500;
+}
+
+.prewrap { white-space: pre-wrap; }

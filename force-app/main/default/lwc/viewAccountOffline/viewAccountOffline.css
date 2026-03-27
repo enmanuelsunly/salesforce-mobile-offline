@@ -1,0 +1,33 @@
+.header .name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: .5rem;
+}
+
+.line {
+    margin-top: .25rem;
+}
+
+.label {
+    font-weight: 600;
+    margin-right: .25rem;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .6rem;
+}
+
+.tile {
+    border: 1px solid #d8dde6;
+    border-radius: .6rem;
+    padding: .9rem .75rem;
+    font-weight: 700;
+    background: #ffffff;
+}
+
+.tile.active {
+    border-color: #1b96ff;
+    box-shadow: 0 0 0 2px rgba(27,150,255,.15);
+}

@@ -1,0 +1,136 @@
+<template>
+    <section class="si-wrapper">
+        <header class="si-header">
+            <h1 class="si-title">Site Inspection</h1>
+            <p class="si-subtitle">
+                Use the tabs below to move between sections.
+            </p>
+        </header>
+
+        <!-- Tab buttons -->
+        <div class="si-tab-bar" role="tablist">
+            <button
+                class={tabClassStructural}
+                data-tab="structural"
+                onclick={handleTabClick}
+                role="tab"
+            >
+                Structural
+            </button>
+
+            <button
+                class={tabClassMainPanel}
+                data-tab="mainPanel"
+                onclick={handleTabClick}
+                role="tab"
+            >
+                Main Panel
+            </button>
+
+            <button
+                class={tabClassElectrical}
+                data-tab="electrical"
+                onclick={handleTabClick}
+                role="tab"
+            >
+                Electrical
+            </button>
+
+            <button
+                class={tabClassGround}
+                data-tab="ground"
+                onclick={handleTabClick}
+                role="tab"
+            >
+                Ground
+            </button>
+
+            <button
+                class={tabClassRoof}
+                data-tab="roof"
+                onclick={handleTabClick}
+                role="tab"
+            >
+                Roof
+            </button>
+
+            <button
+                class={tabClassSiteMap}
+                data-tab="siteMap"
+                onclick={handleTabClick}
+                role="tab"
+            >
+                Site Map
+            </button>
+
+            <button
+                class={tabClassInspector}
+                data-tab="inspector"
+                onclick={handleTabClick}
+                role="tab"
+            >
+                Inspector Notes
+            </button>
+
+            <button
+                class={tabClassSubPanels}
+                data-tab="subPanels"
+                onclick={handleTabClick}
+                role="tab"
+            >
+                Sub Panels
+            </button>
+        </div>
+
+        <!-- Active tab content -->
+        <div class="si-tab-content">
+            <template if:true={isStructuralTabActive}>
+                <c-site-inspection-structural-offline
+                    record-id={recordId}>
+                </c-site-inspection-structural-offline>
+            </template>
+
+            <template if:true={isMainPanelTabActive}>
+                <c-site-inspection-main-panel-offline
+                    record-id={recordId}>
+                </c-site-inspection-main-panel-offline>
+            </template>
+
+            <template if:true={isElectricalTabActive}>
+                <c-site-inspection-electrical-offline
+                    record-id={recordId}>
+                </c-site-inspection-electrical-offline>
+            </template>
+
+            <template if:true={isGroundTabActive}>
+                <c-site-inspection-ground-offline
+                    record-id={recordId}>
+                </c-site-inspection-ground-offline>
+            </template>
+
+            <template if:true={isRoofTabActive}>
+                <c-site-inspection-roof-offline
+                    record-id={recordId}>
+                </c-site-inspection-roof-offline>
+            </template>
+
+            <template if:true={isSiteMapTabActive}>
+                <c-site-inspection-site-map-offline
+                    record-id={recordId}>
+                </c-site-inspection-site-map-offline>
+            </template>
+
+            <template if:true={isInspectorTabActive}>
+                <c-site-inspection-inspector-notes-offline
+                    record-id={recordId}>
+                </c-site-inspection-inspector-notes-offline>
+            </template>
+
+            <template if:true={isSubPanelsTabActive}>
+                <c-site-inspection-sub-panel-offline
+                    record-id={recordId}>
+                </c-site-inspection-sub-panel-offline>
+            </template>
+        </div>
+    </section>
+</template>

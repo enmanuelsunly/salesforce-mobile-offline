@@ -1,0 +1,71 @@
+<template>
+    <lightning-card title="Mark Lost (Offline)">
+        <div class="slds-p-around_medium">
+
+            <!-- Intro text (the screenshot text) -->
+            <div class="slds-m-bottom_medium">
+                <p>That's too bad :(</p>
+                <br />
+                <p>
+                    But don't worry, Solar isn't for everyone. At least they took some time to educate themselves further and
+                    look into it. Maybe they will reconsider in the future!
+                </p>
+                <br />
+                <p>
+                    In the meantime please let us know why it wasn't right for them. It will help us with future messaging and incentives.
+                </p>
+            </div>
+
+            <!-- Lost Reason (Picklist) -->
+            <lightning-combobox
+                name="Lost_Reasons__c"
+                label="Lost Reason"
+                value={lostReasonValue}
+                options={lostReasonOptions}
+                onchange={handleChange}
+                required>
+            </lightning-combobox>
+
+            <!-- Lost Details (NOT saved yet - read note in JS) -->
+            <lightning-textarea
+                name="lostDetailsLocal"
+                label="Lost Details"
+                value={lostDetailsLocal}
+                onchange={handleLocalChange}>
+            </lightning-textarea>
+
+            <!-- Lost Date -->
+            <lightning-input
+                type="date"
+                name="Lost_Date__c"
+                label="Lost Date"
+                value={lostDateValue}
+                onchange={handleChange}
+                required>
+            </lightning-input>
+
+            <div class="slds-m-top_medium slds-align_absolute-center">
+                <lightning-button
+                    variant="neutral"
+                    label="Cancel"
+                    class="slds-m-right_small"
+                    onclick={handleCancel}>
+                </lightning-button>
+
+                <lightning-button
+                    variant="brand"
+                    label="Save"
+                    onclick={handleSave}
+                    disabled={isSaving}>
+                </lightning-button>
+            </div>
+
+            <template if:true={errorMessage}>
+                <div class="slds-m-top_small slds-text-color_error">
+                    {errorMessage}
+                </div>
+            </template>
+
+        </div>
+    </lightning-card>
+</template>

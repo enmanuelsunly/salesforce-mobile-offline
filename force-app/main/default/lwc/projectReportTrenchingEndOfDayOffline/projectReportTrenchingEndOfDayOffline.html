@@ -1,0 +1,110 @@
+<template>
+  <div class="slds-p-around_medium">
+
+    <template if:true={errorMessage}>
+      <div class="slds-text-color_error slds-m-bottom_small">{errorMessage}</div>
+    </template>
+
+    <template if:true={hasData}>
+      <!-- Project Name (read-only) -->
+      <div class="slds-m-bottom_medium">
+        <p><b>Project Name</b></p>
+        <div>{projectName}</div>
+      </div>
+
+      <!-- # of Piles Installed -->
+      <div class="slds-m-bottom_medium">
+        <lightning-input
+          type="number"
+          label="# of Piles Installed"
+          value={pilesInstalledValue}
+          step="1"
+          onchange={handleNumberChange}
+          data-field="of_Piles_Installed__c">
+        </lightning-input>
+      </div>
+
+      <!-- Pre Pile Layout Complete -->
+      <div class="slds-m-bottom_small">
+        <lightning-input
+          type="checkbox"
+          label="Pre Pile Layout Complete"
+          checked={prePileLayoutCompleteValue}
+          onchange={handleCheckboxChange}
+          data-field="Pre_Pile_Layout_Complete__c">
+        </lightning-input>
+      </div>
+
+      <!-- Pile Installation Complete -->
+      <div class="slds-m-bottom_small">
+        <lightning-input
+          type="checkbox"
+          label="Pile Installation Complete"
+          checked={pileInstallationCompleteValue}
+          onchange={handleCheckboxChange}
+          data-field="Pile_Installation_Complete__c">
+        </lightning-input>
+      </div>
+
+      <!-- Trenching Complete -->
+      <div class="slds-m-bottom_medium">
+        <lightning-input
+          type="checkbox"
+          label="Trenching Complete"
+          checked={trenchingCompleteValue}
+          onchange={handleCheckboxChange}
+          data-field="Trenching_Complete__c">
+        </lightning-input>
+      </div>
+
+      <!-- Trench Notes (Text Area 255) -->
+      <div class="slds-m-bottom_medium">
+        <lightning-textarea
+          label="Trench Notes"
+          value={trenchNotesValue}
+          onchange={handleTextChange}
+          data-field="Trench_Notes__c">
+        </lightning-textarea>
+      </div>
+
+      <!-- Trench Length -->
+      <div class="slds-m-bottom_medium">
+        <lightning-input
+          type="text"
+          label="Trench Length"
+          value={trenchLengthValue}
+          onchange={handleTextChange}
+          data-field="Trench_Length__c">
+        </lightning-input>
+      </div>
+
+      <!-- Install Folder (Formula link - read only) -->
+      <div class="slds-m-top_medium slds-m-bottom_medium">
+        <p><b>Install Folder</b></p>
+        <template if:true={installFolder}>
+          <a href={installFolder} target="_blank" rel="noopener noreferrer">
+            {installFolder}
+          </a>
+        </template>
+        <template if:false={installFolder}>
+          <div class="slds-text-color_weak">—</div>
+        </template>
+      </div>
+
+      <!-- Footer -->
+      <div class="slds-m-top_large slds-grid slds-grid_align-end slds-gutters_small">
+        <div class="slds-col">
+          <lightning-button label="Cancel" onclick={handleCancel}></lightning-button>
+        </div>
+        <div class="slds-col">
+          <lightning-button variant="brand" label="Save" onclick={handleSave} disabled={isSaving}></lightning-button>
+        </div>
+      </div>
+    </template>
+
+    <template if:false={hasData}>
+      <div class="slds-text-color_weak">Loading...</div>
+    </template>
+
+  </div>
+</template>

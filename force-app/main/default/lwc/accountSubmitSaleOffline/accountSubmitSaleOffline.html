@@ -1,0 +1,152 @@
+<template>
+    <lightning-card title="Submit Sale (Offline)">
+        <div class="slds-p-around_medium">
+
+            <lightning-input
+                label="Account Name"
+                name="Name"
+                value={nameValue}
+                onchange={handleChange}
+                required>
+            </lightning-input>
+
+            <lightning-combobox
+                label="Salutation"
+                name="Salutation"
+                value={salutationValue}
+                options={salutationOptionsFinal}
+                onchange={handleChange}>
+            </lightning-combobox>
+
+            <lightning-input
+                label="First Name"
+                name="FirstName"
+                value={firstNameValue}
+                onchange={handleChange}>
+            </lightning-input>
+
+            <lightning-input
+                label="Last Name"
+                name="LastName"
+                value={lastNameValue}
+                onchange={handleChange}
+                required>
+            </lightning-input>
+
+            <!-- Sales Rep: show Name (best effort), save Id -->
+            <lightning-input
+                label="Sales Rep"
+                value={salesRepName}
+                disabled>
+            </lightning-input>
+
+            <lightning-input
+                label="Sales Rep (Id)"
+                name="Sales_Rep__c"
+                value={salesRepIdValue}
+                onchange={handleChange}>
+            </lightning-input>
+
+            <lightning-input
+                label="Google Drive Folder"
+                name="Google_Drive_Folder__c"
+                type="url"
+                value={googleDriveFolderValue}
+                onchange={handleChange}>
+            </lightning-input>
+
+            <lightning-combobox
+                label="Federal Grant Intent"
+                name="Federal_Grant_Intent__c"
+                value={federalGrantIntentValue}
+                options={federalGrantIntentOptionsFinal}
+                onchange={handleChange}>
+            </lightning-combobox>
+
+            <lightning-input
+                label="Account Number On LDC Bill"
+                name="Account_Number_On_LDC_Bill__c"
+                value={accountNumberLdcValue}
+                onchange={handleChange}>
+            </lightning-input>
+
+            <lightning-combobox
+                label="Sale Type"
+                name="Sale_Type__c"
+                value={saleTypeValue}
+                options={saleTypeOptionsFinal}
+                onchange={handleChange}
+                required>
+            </lightning-combobox>
+
+            <lightning-combobox
+                label="Customer Type"
+                name="Customer_Type__c"
+                value={customerTypeValue}
+                options={customerTypeOptionsFinal}
+                onchange={handleChange}>
+            </lightning-combobox>
+
+            <lightning-textarea
+                label="Full Name On LDC Bill"
+                name="Name_On_LDC_Bill__c"
+                value={nameOnLdcBillValue}
+                onchange={handleChange}>
+            </lightning-textarea>
+
+            <lightning-combobox
+                label="Property Usage"
+                name="Property_Usage__c"
+                value={propertyUsageValue}
+                options={propertyUsageOptionsFinal}
+                onchange={handleChange}
+                required>
+            </lightning-combobox>
+
+            <lightning-combobox
+                label="Building Type"
+                name="Building_Type__c"
+                value={buildingTypeValue}
+                options={buildingTypeOptionsFinal}
+                onchange={handleChange}
+                required>
+            </lightning-combobox>
+
+            <lightning-textarea
+                label="Submission Notes"
+                name="Submission_Notes__c"
+                value={submissionNotesValue}
+                onchange={handleChange}>
+            </lightning-textarea>
+
+            <lightning-combobox
+                label="Sale Ready for Validation"
+                name="Sale_Ready_for_Validation__c"
+                value={saleReadyValue}
+                options={saleReadyOptionsFinal}
+                onchange={handleChange}
+                required>
+            </lightning-combobox>
+
+            <div class="slds-m-top_medium slds-align_absolute-center">
+                <lightning-button
+                    variant="neutral"
+                    label="Cancel"
+                    class="slds-m-right_small"
+                    onclick={handleCancel}>
+                </lightning-button>
+
+                <lightning-button
+                    variant="brand"
+                    label="Save"
+                    onclick={handleSave}
+                    disabled={isSaving}>
+                </lightning-button>
+            </div>
+
+            <template if:true={errorMessage}>
+                <div class="slds-m-top_small slds-text-color_error">{errorMessage}</div>
+            </template>
+        </div>
+    </lightning-card>
+</template>

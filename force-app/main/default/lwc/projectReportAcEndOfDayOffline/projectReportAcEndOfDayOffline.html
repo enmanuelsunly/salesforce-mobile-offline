@@ -1,0 +1,119 @@
+<template>
+  <div class="slds-p-around_medium">
+
+    <template if:true={errorMessage}>
+      <div class="slds-text-color_error slds-m-bottom_small">{errorMessage}</div>
+    </template>
+
+    <template if:true={hasData}>
+      <!-- Project Name (read-only) -->
+      <div class="slds-m-bottom_medium">
+        <p><b>Project Name</b></p>
+        <div>{projectName}</div>
+      </div>
+
+      <!-- AC Punch List -->
+      <lightning-textarea
+        label="AC Punch List"
+        value={acPunchListValue}
+        data-field="AC_Punch_List__c"
+        onchange={handleTextChange}>
+      </lightning-textarea>
+
+      <!-- AC Folder (Formula - read only) -->
+      <div class="slds-m-top_medium slds-m-bottom_medium">
+        <p><b>AC Folder</b></p>
+        <template if:true={acFolder}>
+          <a href={acFolder} target="_blank" rel="noopener noreferrer">{acFolder}</a>
+        </template>
+        <template if:false={acFolder}>
+          <div class="slds-text-color_weak">—</div>
+        </template>
+      </div>
+
+      <!-- Maritime Service Order Number -->
+      <lightning-input
+        type="text"
+        label="Maritime Service Order Number"
+        value={serviceOrderNumberValue}
+        data-field="Service_Order_Number__c"
+        onchange={handleTextChange}>
+      </lightning-input>
+
+      <!-- Electrical Permit # -->
+      <lightning-input
+        type="text"
+        label="Electrical Permit #"
+        value={electricalPermitValue}
+        data-field="Electrical_Permit__c"
+        onchange={handleTextChange}>
+      </lightning-input>
+
+      <!-- Electrician Notes -->
+      <lightning-textarea
+        label="Electrician Notes"
+        value={electricianNotesValue}
+        data-field="Electrician_Notes__c"
+        onchange={handleTextChange}>
+      </lightning-textarea>
+
+      <!-- Install Team (Multi-Select Picklist) -->
+      <div class="slds-m-top_medium">
+        <lightning-dual-listbox
+          name="installTeam"
+          label="Install Team"
+          source-label="Available"
+          selected-label="Chosen"
+          options={installTeamOptions}
+          value={installTeamSelected}
+          onchange={handleInstallTeamChange}>
+        </lightning-dual-listbox>
+      </div>
+
+      <!-- Additional Team Members -->
+      <lightning-textarea
+        label="Additional Team Members"
+        value={additionalTeamMembersValue}
+        data-field="Additional_Team_Members__c"
+        onchange={handleTextChange}>
+      </lightning-textarea>
+
+      <!-- Trenching Required -->
+      <div class="slds-m-top_medium">
+        <lightning-input
+          type="checkbox"
+          label="Trenching Required?"
+          checked={trenchingRequiredValue}
+          data-field="Trenching_Required__c"
+          onchange={handleCheckboxChange}>
+        </lightning-input>
+      </div>
+
+      <div class="slds-m-top_medium">
+        <lightning-input
+            type="checkbox"
+            label="Trenching Complete"
+            checked={trenchingCompleteValue}
+            data-field="Trenching_Complete__c"
+            onchange={handleCheckboxChange}>
+        </lightning-input>
+        </div>
+
+
+      <!-- Footer -->
+      <div class="slds-m-top_large slds-grid slds-grid_align-end slds-gutters_small">
+        <div class="slds-col">
+          <lightning-button label="Cancel" onclick={handleCancel}></lightning-button>
+        </div>
+        <div class="slds-col">
+          <lightning-button variant="brand" label="Save" onclick={handleSave} disabled={isSaving}></lightning-button>
+        </div>
+      </div>
+    </template>
+
+    <template if:false={hasData}>
+      <div class="slds-text-color_weak">Loading...</div>
+    </template>
+
+  </div>
+</template>

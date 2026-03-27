@@ -1,0 +1,258 @@
+<template>
+    <div class="page">
+        <!-- Title -->
+        <h1 class="page-title">Account (Offline)</h1>
+
+        <!-- Error -->
+        <template if:true={hasError}>
+            <div class="error">
+                Error loading Account.
+            </div>
+        </template>
+
+        <!-- Summary Card -->
+        <template if:true={hasData}>
+            <div class="summary-card">
+                <div class="summary-title">{accountName}</div>
+
+                <div class="summary-kv">
+                    <template if:true={primaryEmail}>
+                        <div class="kv-row">
+                            <span class="kv-label">Primary Email:</span>
+                            <span class="kv-value">{primaryEmail}</span>
+                        </div>
+                    </template>
+
+                    <template if:true={phone}>
+                        <div class="kv-row">
+                            <span class="kv-label">Phone:</span>
+                            <a class="kv-link" href={phoneHref}>{phone}</a>
+                        </div>
+                    </template>
+
+                    <template if:true={billingLine}>
+                        <div class="kv-row">
+                            <span class="kv-label">Billing Address:</span>
+                            <span class="kv-value">{billingLine}</span>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </template>
+
+        <!-- Tabs (button grid) -->
+        <div class="tab-grid" role="tablist" aria-label="Account Tabs">
+            <button class={detailsTabClass} data-tab="details" onclick={handleTabClick} role="tab" aria-selected={isDetails}>
+                Details
+            </button>
+
+            <button class={requestProposalTabClass} data-tab="requestProposal" onclick={handleTabClick} role="tab" aria-selected={isRequestProposal}>
+                Request Proposal
+            </button>
+
+            <button class={submitSaleTabClass} data-tab="submitSale" onclick={handleTabClick} role="tab" aria-selected={isSubmitSale}>
+                Submit Sale
+            </button>
+
+            <button class={referralTabClass} data-tab="referral" onclick={handleTabClick} role="tab" aria-selected={isReferral}>
+                Referral
+            </button>
+
+            <button class={markLostTabClass} data-tab="markLost" onclick={handleTabClick} role="tab" aria-selected={isMarkLost}>
+                Mark Lost
+            </button>
+
+            <button class={newOpportunityTabClass} data-tab="newOpportunity" onclick={handleTabClick} role="tab" aria-selected={isNewOpportunity}>
+                New Opportunity
+            </button>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <!-- DETAILS -->
+            <template if:true={isDetails}>
+                <h2 class="section-header">Overview</h2>
+                <div class="field-card">
+                    <div class="field-block">
+                        <div class="field-label">Solar Program Type</div>
+                        <div class="field-value">{solarProgramType}</div>
+                    </div>
+
+                    <div class="field-block">
+                        <div class="field-label">Province</div>
+                        <div class="field-value">{province}</div>
+                    </div>
+
+                    <div class="field-block">
+                        <div class="field-label">Territory</div>
+                        <div class="field-value">{territory}</div>
+                    </div>
+
+                    <div class="field-block">
+                        <div class="field-label">How did you hear about us</div>
+                        <div class="field-value">{howDidYouHear}</div>
+                    </div>
+
+                    <div class="field-block">
+                        <div class="field-label">Avg Utility Bill</div>
+                        <div class="field-value">{avgUtilityBill}</div>
+                    </div>
+                </div>
+
+                <h2 class="section-header">Account Stage</h2>
+                <div class="field-card">
+                    <div class="field-block">
+                        <div class="field-label">Account Status</div>
+                        <div class="field-value">{accountStatus}</div>
+                    </div>
+
+                    <div class="field-block">
+                        <div class="field-label">Account Stage</div>
+                        <div class="field-value">{accountStage}</div>
+                    </div>
+
+                    <div class="field-block">
+                        <div class="field-label">Sale Type</div>
+                        <div class="field-value">{saleType}</div>
+                    </div>
+                </div>
+
+                <h2 class="section-header">Property</h2>
+                <div class="field-card">
+                    <div class="field-block">
+                        <div class="field-label">Project Type</div>
+                        <div class="field-value">{projectType}</div>
+                    </div>
+
+                    <div class="field-block">
+                        <div class="field-label">Roof</div>
+                        <div class="field-value">{roof}</div>
+                    </div>
+
+                    <div class="field-block">
+                        <div class="field-label">Roof Age</div>
+                        <div class="field-value">{roofAge}</div>
+                    </div>
+
+                    <div class="field-block">
+                        <div class="field-label">Property ID #</div>
+                        <div class="field-value">{propertyId}</div>
+                    </div>
+                </div>
+
+                <h2 class="section-header">Expected Load Increases</h2>
+                <div class="field-card">
+                    <div class="field-block">
+                        <div class="field-label">Notes</div>
+                        <template if:true={expectedLoadIncreases}>
+                            <div class="field-value prewrap">{expectedLoadIncreases}</div>
+                        </template>
+                        <template if:false={expectedLoadIncreases}>
+                            <div class="field-value">—</div>
+                        </template>
+                    </div>
+                </div>
+
+                <h2 class="section-header">Homeowners</h2>
+                <div class="field-card">
+                    <div class="field-block">
+                        <div class="field-label">Home Owner 1</div>
+                        <div class="field-value">{homeOwner1Name}</div>
+                    </div>
+
+                    <div class="field-block">
+                        <div class="field-label">Home Owner 2</div>
+                        <div class="field-value">{homeOwner2Name}</div>
+                    </div>
+
+                    <div class="field-block">
+                        <div class="field-label">Home Owner 3</div>
+                        <div class="field-value">{homeOwner3Name}</div>
+                    </div>
+                </div>
+
+                <h2 class="section-header">Referral</h2>
+                <div class="field-card">
+                    <div class="field-block">
+                        <div class="field-label">Referred By</div>
+                        <div class="field-value">{referredByName}</div>
+                    </div>
+
+                    <div class="field-block">
+                        <div class="field-label">Referral Type</div>
+                        <div class="field-value">{referralType}</div>
+                    </div>
+                </div>
+
+                <h2 class="section-header">Folders</h2>
+                <div class="field-card">
+                    <div class="field-block">
+                        <div class="field-label">Proposal</div>
+                        <div class="field-value">
+                            <template if:true={proposalHref}>
+                                <a class="kv-link" href={proposalHref} target="_blank" rel="noopener noreferrer">{proposalHref}</a>
+                            </template>
+                            <template if:false={proposalHref}>—</template>
+                        </div>
+                    </div>
+
+                    <div class="field-block">
+                        <div class="field-label">Google Drive Folder</div>
+                        <div class="field-value">
+                            <template if:true={googleDriveHref}>
+                                <a class="kv-link" href={googleDriveHref} target="_blank" rel="noopener noreferrer">{googleDriveHref}</a>
+                            </template>
+
+                            <template if:false={googleDriveHref}>
+                                <template if:true={googleDriveFolder}>
+                                    {googleDriveFolder}
+                                </template>
+                                <template if:false={googleDriveFolder}>—</template>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+            <!-- ACTIONS -->
+            <template if:true={isRequestProposal}>
+                <h2 class="section-header">Request Proposal</h2>
+                <div class="panel-card">
+                    <c-account-request-proposal-offline record-id={recordId} onclose={handleActionClose}></c-account-request-proposal-offline>
+                </div>
+            </template>
+
+            <template if:true={isSubmitSale}>
+                <h2 class="section-header">Submit Sale</h2>
+                <div class="panel-card">
+                    <c-account-submit-sale-offline record-id={recordId} onclose={handleActionClose}></c-account-submit-sale-offline>
+                </div>
+            </template>
+
+            <template if:true={isReferral}>
+                <h2 class="section-header">Referral</h2>
+                <div class="panel-card">
+                    <c-account-referral-offline record-id={recordId} onclose={handleActionClose}></c-account-referral-offline>
+                </div>
+            </template>
+
+            <template if:true={isMarkLost}>
+                <h2 class="section-header">Mark Lost</h2>
+                <div class="panel-card">
+                    <c-account-mark-lost-offline record-id={recordId} onclose={handleActionClose}></c-account-mark-lost-offline>
+                </div>
+            </template>
+
+            <template if:true={isNewOpportunity}>
+                <h2 class="section-header">New Opportunity</h2>
+                <div class="panel-card">
+                    <c-account-new-opportunity-offline record-id={recordId} onclose={handleActionClose}></c-account-new-opportunity-offline>
+                </div>
+            </template>
+        </div>
+
+        <template if:false={hasData}>
+            <div class="loading">Loading...</div>
+        </template>
+    </div>
+</template>

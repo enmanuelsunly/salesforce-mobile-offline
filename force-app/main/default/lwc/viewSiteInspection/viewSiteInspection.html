@@ -1,0 +1,199 @@
+<template>
+    <div class="page">
+        <!-- Title -->
+        <h1 class="page-title">Site Inspection (Offline)</h1>
+
+        <!-- Error -->
+        <template if:true={hasError}>
+            <div class="error">
+                Error loading Site Inspection.
+            </div>
+        </template>
+
+        <!-- Summary Card -->
+        <template if:true={hasData}>
+            <div class="summary-card">
+                <div class="summary-title">{name}</div>
+
+                <div class="summary-kv">
+                    <div class="kv-row">
+                        <span class="kv-label">Account:</span>
+                        <span class="kv-value">{account}</span>
+                    </div>
+
+                    <div class="kv-row">
+                        <span class="kv-label">Opportunity:</span>
+                        <span class="kv-value">{opportunity}</span>
+                    </div>
+
+                    <div class="kv-row">
+                        <span class="kv-label">Roof Condition:</span>
+                        <span class="kv-value">{roofCondition}</span>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <!-- Main Tabs (Project Report style button grid) -->
+        <div class="tab-grid" role="tablist" aria-label="Site Inspection Tabs">
+            <button class={detailsTabClass} data-tab="details" onclick={handleTabClick} role="tab" aria-selected={isDetails}>
+                Details
+            </button>
+
+            <button class={structuralTabClass} data-tab="structural" onclick={handleTabClick} role="tab" aria-selected={isStructural}>
+                Structural
+            </button>
+
+            <button class={mainPanelTabClass} data-tab="mainPanel" onclick={handleTabClick} role="tab" aria-selected={isMainPanel}>
+                Main Panel
+            </button>
+
+            <button class={electricalTabClass} data-tab="electrical" onclick={handleTabClick} role="tab" aria-selected={isElectrical}>
+                Electrical
+            </button>
+
+            <button class={groundTabClass} data-tab="ground" onclick={handleTabClick} role="tab" aria-selected={isGround}>
+                Ground
+            </button>
+
+            <button class={roofTabClass} data-tab="roof" onclick={handleTabClick} role="tab" aria-selected={isRoof}>
+                Roof
+            </button>
+
+            <button class={siteMapTabClass} data-tab="siteMap" onclick={handleTabClick} role="tab" aria-selected={isSiteMap}>
+                Site Map
+            </button>
+
+            <button class={inspectorNotesTabClass} data-tab="inspectorNotes" onclick={handleTabClick} role="tab" aria-selected={isInspectorNotes}>
+                Inspector Notes
+            </button>
+
+            <button class={subPanelsTabClass} data-tab="subPanels" onclick={handleTabClick} role="tab" aria-selected={isSubPanels}>
+                Sub Panels
+            </button>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <!-- DETAILS -->
+            <template if:true={isDetails}>
+                <h2 class="section-header">Overview</h2>
+
+                <div class="field-card">
+                    <div class="field-block">
+                        <div class="field-label">Name</div>
+                        <div class="field-value">{name}</div>
+                    </div>
+
+                    <div class="field-block">
+                        <div class="field-label">Account</div>
+                        <div class="field-value">{account}</div>
+                    </div>
+
+                    <div class="field-block">
+                        <div class="field-label">Opportunity</div>
+                        <div class="field-value">{opportunity}</div>
+                    </div>
+
+                    <div class="field-block">
+                        <div class="field-label">Roof Condition</div>
+                        <div class="field-value">{roofCondition}</div>
+                    </div>
+                </div>
+
+                <template if:true={inspectorNotes}>
+                    <h2 class="section-header">Inspector Notes</h2>
+                    <div class="field-card">
+                        <div class="field-block">
+                            <div class="field-label">Notes</div>
+                            <div class="field-value prewrap">{inspectorNotes}</div>
+                        </div>
+                    </div>
+                </template>
+            </template>
+
+            <!-- STRUCTURAL -->
+            <template if:true={isStructural}>
+                <h2 class="section-header">Structural</h2>
+                <div class="panel-card">
+                    <c-site-inspection-structural-offline record-id={recordId}></c-site-inspection-structural-offline>
+                </div>
+            </template>
+
+            <!-- MAIN PANEL -->
+            <template if:true={isMainPanel}>
+                <h2 class="section-header">Main Panel</h2>
+                <div class="panel-card">
+                    <c-site-inspection-main-panel-offline record-id={recordId}></c-site-inspection-main-panel-offline>
+                </div>
+            </template>
+
+            <!-- ELECTRICAL -->
+            <template if:true={isElectrical}>
+                <h2 class="section-header">Electrical</h2>
+                <div class="panel-card">
+                    <c-site-inspection-electrical-offline record-id={recordId}></c-site-inspection-electrical-offline>
+                </div>
+            </template>
+
+            <!-- GROUND -->
+            <template if:true={isGround}>
+                <h2 class="section-header">Ground</h2>
+                <div class="panel-card">
+                    <c-site-inspection-ground-offline record-id={recordId}></c-site-inspection-ground-offline>
+                </div>
+            </template>
+
+            <!-- ROOF -->
+            <template if:true={isRoof}>
+                <h2 class="section-header">Roof</h2>
+                <div class="panel-card">
+                    <c-site-inspection-roof-offline record-id={recordId}></c-site-inspection-roof-offline>
+                </div>
+            </template>
+
+            <!-- SITE MAP -->
+            <template if:true={isSiteMap}>
+                <h2 class="section-header">Site Map</h2>
+                <div class="panel-card">
+                    <c-site-inspection-site-map-offline record-id={recordId}></c-site-inspection-site-map-offline>
+                </div>
+            </template>
+
+            <!-- INSPECTOR NOTES (SECTION COMPONENT) -->
+            <template if:true={isInspectorNotes}>
+                <h2 class="section-header">Inspector Notes</h2>
+                <div class="panel-card">
+                    <c-site-inspection-inspector-notes-offline record-id={recordId}></c-site-inspection-inspector-notes-offline>
+                </div>
+            </template>
+
+            <!-- SUB PANELS -->
+            <template if:true={isSubPanels}>
+                <h2 class="section-header">Sub Panels</h2>
+                <div class="panel-card">
+                    <lightning-tabset variant="scoped">
+                        <lightning-tab label="Sub Panel 1">
+                            <c-site-inspection-sub-panel-offline record-id={recordId} panel-number="1"></c-site-inspection-sub-panel-offline>
+                        </lightning-tab>
+                        <lightning-tab label="Sub Panel 2">
+                            <c-site-inspection-sub-panel-offline record-id={recordId} panel-number="2"></c-site-inspection-sub-panel-offline>
+                        </lightning-tab>
+                        <lightning-tab label="Sub Panel 3">
+                            <c-site-inspection-sub-panel-offline record-id={recordId} panel-number="3"></c-site-inspection-sub-panel-offline>
+                        </lightning-tab>
+                        <lightning-tab label="Sub Panel 4">
+                            <c-site-inspection-sub-panel-offline record-id={recordId} panel-number="4"></c-site-inspection-sub-panel-offline>
+                        </lightning-tab>
+                        <lightning-tab label="Sub Panel 5">
+                            <c-site-inspection-sub-panel-offline record-id={recordId} panel-number="5"></c-site-inspection-sub-panel-offline>
+                        </lightning-tab>
+                        <lightning-tab label="Sub Panel 6">
+                            <c-site-inspection-sub-panel-offline record-id={recordId} panel-number="6"></c-site-inspection-sub-panel-offline>
+                        </lightning-tab>
+                    </lightning-tabset>
+                </div>
+            </template>
+        </div>
+    </div>
+</template>

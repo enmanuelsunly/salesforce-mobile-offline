@@ -1,0 +1,82 @@
+<template>
+    <lightning-card title="New Opportunity (Offline)">
+        <div class="slds-p-around_medium">
+
+            <!-- Opportunity Name -->
+            <lightning-input
+                label="Opportunity Name"
+                name="Name"
+                value={oppNameValue}
+                onchange={handleChange}
+                required>
+            </lightning-input>
+
+            <!-- Account Name (display only) -->
+            <lightning-input
+                label="Account Name"
+                value={accountName}
+                disabled>
+            </lightning-input>
+
+            <!-- Close Date -->
+            <lightning-input
+                label="Close Date"
+                name="CloseDate"
+                type="date"
+                value={closeDateValue}
+                onchange={handleChange}
+                required>
+            </lightning-input>
+
+            <!-- Stage (Opportunity.StageName) -->
+            <lightning-combobox
+                label="Stage"
+                name="StageName"
+                value={stageValue}
+                options={stageOptions}
+                onchange={handleChange}
+                required>
+            </lightning-combobox>
+
+            <!-- Amount -->
+            <lightning-input
+                label="Amount"
+                name="Amount"
+                type="number"
+                value={amountValue}
+                onchange={handleChange}>
+            </lightning-input>
+
+            <!-- Next Step -->
+            <lightning-input
+                label="Next Step"
+                name="NextStep"
+                value={nextStepValue}
+                onchange={handleChange}>
+            </lightning-input>
+
+            <div class="slds-m-top_medium slds-align_absolute-center">
+                <lightning-button
+                    variant="neutral"
+                    label="Cancel"
+                    class="slds-m-right_small"
+                    onclick={handleCancel}>
+                </lightning-button>
+
+                <lightning-button
+                    variant="brand"
+                    label="Save"
+                    onclick={handleSave}
+                    disabled={isSaving}>
+                </lightning-button>
+            </div>
+
+            <template if:true={errorMessage}>
+                <div class="slds-m-top_small slds-text-color_error">
+                    {errorMessage}
+                </div>
+            </template>
+
+        </div>
+    </lightning-card>
+</template>
