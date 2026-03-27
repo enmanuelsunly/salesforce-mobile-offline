@@ -36,15 +36,15 @@ This project fixes that by building a custom offline architecture on top of Sale
 - **Record-Triggered Flows**  Event mirroring, contact matching, notifications
 - **Salesforce Mobile SDK**  offline sync engine
 - **Salesforce CLI**  offline sync engine
-- 
+
 ---
 
 ## Quick Start Guide
 This quick start shows you how to view a custom record type offline. For records in the Starter Kit, you can use the corresponding existing Lightning Web Components (LWC) and modify it to your needs.
-•	Set up your development environment.
-•	Configure your Offline Briefcase to include the objects that you want to view offline.
-o	Follow the steps in the Define an Offline Briefcase section.
-o	The Briefcase Builder help documentation and Offline Briefcase Trailhead module are excellent resources to help you create a briefcase, set of rules, and filters that select records for offline use for your org.
+- Set up your development environment.
+- Configure your Offline Briefcase to include the objects that you want to view offline.
+- Follow the steps in the Define an Offline Briefcase section.
+- The Briefcase Builder help documentation and Offline Briefcase Trailhead module are excellent resources to help you create a briefcase, set of rules, and filters that select records for offline use for your org.
 
 
 
